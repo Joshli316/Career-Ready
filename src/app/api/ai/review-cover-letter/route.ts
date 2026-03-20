@@ -1,0 +1,42 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getAIClient } from "@/lib/ai/client";
+import { PROMPTS } from "@/lib/ai/prompts";
+import { checkRateLimit } from "@/lib/ai/rate-limit";
+
+export async function POST(request: NextRequest) {
+  const apiKey = process.env.CLAUDE_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "AI features are not configured" }, { status: 503 });
+  }
+
+  const ip = request.headers.get("x-forwarded-for") ?? "anonymous";
+  const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
+  if (!allowed) {
+    return NextResponse.json({ error: "Daily AI limit reached." }, { status: 429 });
+  }
+
+  const { coverLetter, jobTitle, company } = (await request.json()) as { coverLetter: string; jobTitle?: string; company?: string };
+  if (!coverLetter) {
+    return NextResponse.json({ error: "Missing cover letter" }, { status: 400 });
+  }
+
+  try {
+    const client = getAIClient(apiKey);
+    const message = await client.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 512,
+      system: PROMPTS.reviewCoverLetter,
+      messages: [
+        {
+          role: "user",
+          content: `Job: ${jobTitle || "Not specified"} at ${company || "Not specified"}\n\nCover Letter:\n${coverLetter}`,
+        },
+      ],
+    });
+
+    const text = message.content[0].type === "text" ? message.content[0].text : "";
+    return NextResponse.json({ feedback: text, remaining });
+  } catch {
+    return NextResponse.json({ error: "AI request failed" }, { status: 500 });
+  }
+}

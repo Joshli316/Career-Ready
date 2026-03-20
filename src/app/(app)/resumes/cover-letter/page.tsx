@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Download } from "lucide-react";
 import { nanoid } from "nanoid";
+import { usePdfExport } from "@/hooks/usePdfExport";
 import type { CoverLetter } from "@/types/resume";
 
 export default function CoverLetterPage() {
@@ -26,6 +27,7 @@ export default function CoverLetterPage() {
     },
     createdAt: new Date().toISOString(),
   });
+  const { exportCoverLetter, exporting } = usePdfExport();
   const [saved, setSaved] = useState(false);
   const [profile, setProfile] = useState<{ brandStatement?: string; powerStatement?: string } | null>(null);
 
@@ -124,6 +126,10 @@ export default function CoverLetterPage() {
           </section>
 
           <div className="flex justify-end">
+            <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter)} disabled={exporting}>
+              <Download className="mr-1.5 h-4 w-4" />
+              {exporting ? "Exporting..." : "Export PDF"}
+            </Button>
             <Button onClick={save} size="lg">Save Cover Letter</Button>
           </div>
         </div>

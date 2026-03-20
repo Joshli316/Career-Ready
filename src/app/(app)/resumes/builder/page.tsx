@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { CheckCircle, Plus, Trash2, Eye, EyeOff, Download, Wand2 } from "lucide-react";
 import { nanoid } from "nanoid";
+import { usePdfExport } from "@/hooks/usePdfExport";
 import type { Resume, ResumeContent, ResumeTemplate } from "@/types/resume";
 import type { UserProfile } from "@/types/profile";
 
@@ -50,6 +51,7 @@ export default function ResumeBuilderPage() {
   const [saved, setSaved] = useState(false);
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const { exportResume, exporting } = usePdfExport();
 
   useEffect(() => {
     Promise.all([storage.getResumes(), storage.getProfile()]).then(
@@ -440,7 +442,11 @@ export default function ResumeBuilderPage() {
             </div>
           </section>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-3">
+            <Button variant="secondary" size="lg" onClick={() => exportResume(resume)} disabled={exporting}>
+              <Download className="mr-1.5 h-4 w-4" />
+              {exporting ? "Exporting..." : "Export PDF"}
+            </Button>
             <Button onClick={save} size="lg">
               Save Resume
             </Button>
