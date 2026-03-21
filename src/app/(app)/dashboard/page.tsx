@@ -93,7 +93,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Journey phases */}
+      {/* Phase indicators */}
       <div className="mb-8 flex items-center gap-2 text-sm">
         {phases.map((phase, i) => (
           <div key={phase} className="flex items-center gap-2">

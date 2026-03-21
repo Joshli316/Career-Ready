@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
   if (!allowed) {
     return NextResponse.json(
-      { error: "Daily AI limit reached. Create an account for more." },
+      { error: "Daily AI limit reached. Try again tomorrow." },
       { status: 429 }
     );
   }

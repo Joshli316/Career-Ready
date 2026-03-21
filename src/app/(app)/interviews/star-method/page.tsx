@@ -211,7 +211,7 @@ export default function StarMethodPage() {
               </button>
             )}
             <div className="ml-auto">
-              <Button onClick={save}>Save All Stories</Button>
+              <Button onClick={save}>Save Stories</Button>
             </div>
           </div>
         </div>

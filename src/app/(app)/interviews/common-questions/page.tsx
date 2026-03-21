@@ -202,7 +202,7 @@ export default function CommonQuestionsPage() {
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={save} size="lg">Save All Responses</Button>
+        <Button onClick={save} size="lg">Save Responses</Button>
       </div>
     </div>
   );

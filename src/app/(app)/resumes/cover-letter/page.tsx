@@ -87,6 +87,7 @@ export default function CoverLetterPage() {
 
       <AICoverLetterForm
         savedResume={savedResume}
+        hasExistingContent={Boolean(letter.content.opening || letter.content.body || letter.content.closing)}
         onGenerated={(result) => {
           setLetter((prev) => ({
             ...prev,
@@ -158,7 +159,7 @@ export default function CoverLetterPage() {
           </section>
 
           <div className="flex justify-end gap-3">
-            <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter)} disabled={exporting}>
+            <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter, savedResume ? { name: savedResume.content.contactInfo.name, phone: savedResume.content.contactInfo.phone, email: savedResume.content.contactInfo.email } : undefined)} disabled={exporting}>
               <Download className="mr-1.5 h-4 w-4" />
               {exporting ? "Exporting..." : "Export PDF"}
             </Button>
@@ -185,7 +186,7 @@ export default function CoverLetterPage() {
             {letter.content.closing && <p className="text-neutral-600">{letter.content.closing}</p>}
             <div className="text-neutral-700">
               <p>Sincerely,</p>
-              <p className="mt-2 font-medium">[Your Name]</p>
+              <p className="mt-2 font-medium">{savedResume?.content.contactInfo.name || "[Your Name]"}</p>
             </div>
           </div>
         </div>

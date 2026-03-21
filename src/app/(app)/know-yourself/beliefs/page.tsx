@@ -161,7 +161,7 @@ export default function BeliefsPage() {
 
       <div className="flex justify-end">
         <Button onClick={handleSave} size="lg">
-          Save Progress
+          Save Beliefs
         </Button>
       </div>
     </div>

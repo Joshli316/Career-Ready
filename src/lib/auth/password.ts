@@ -51,5 +51,13 @@ export async function verifyPassword(
     keyMaterial,
     KEY_LENGTH * 8
   );
-  return toHex(hash) === hashHex;
+  // Constant-time comparison to prevent timing attacks
+  const derived = new Uint8Array(hash);
+  const stored_bytes = fromHex(hashHex);
+  if (derived.length !== stored_bytes.length) return false;
+  let diff = 0;
+  for (let i = 0; i < derived.length; i++) {
+    diff |= derived[i] ^ stored_bytes[i];
+  }
+  return diff === 0;
 }

@@ -1,22 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { usePdfExport } from "@/hooks/usePdfExport";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { useStorage } from "@/hooks/useStorage";
 import { Download, Copy, Eye, EyeOff } from "lucide-react";
 
 export default function ThankYouPage() {
+  const storage = useStorage();
   const [interviewer, setInterviewer] = useState("");
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
   const [highlights, setHighlights] = useState("");
+  const [senderName, setSenderName] = useState("");
+  const [senderPhone, setSenderPhone] = useState("");
+  const [senderEmail, setSenderEmail] = useState("");
   const { exportThankYou, exporting } = usePdfExport();
   const [copied, setCopied] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  useEffect(() => {
+    storage.getResumes().then((resumes) => {
+      if (resumes.length > 0) {
+        const c = resumes[0].content.contactInfo;
+        if (c.name) setSenderName(c.name);
+        if (c.phone) setSenderPhone(c.phone);
+        if (c.email) setSenderEmail(c.email);
+      }
+    });
+  }, [storage]);
 
   const preview = `Dear ${interviewer || "[Interviewer Name]"},
 
@@ -27,9 +43,9 @@ ${highlights || "Our conversation confirmed that this role is a great match for 
 Feel free to reach out if you need anything else from me. I hope to hear from you soon.
 
 Best Regards,
-[Your Name]
-[Your Phone]
-[Your Email]`;
+${senderName || "[Your Name]"}
+${senderPhone || "[Your Phone]"}
+${senderEmail || "[Your Email]"}`;
 
   return (
     <div>
@@ -65,7 +81,7 @@ Best Regards,
               <Copy className="mr-1.5 h-4 w-4" />
               {copied ? "Copied!" : "Copy to Clipboard"}
             </Button>
-            <Button variant="secondary" onClick={() => exportThankYou({ interviewer, company, position, body: preview })} disabled={exporting}>
+            <Button variant="secondary" onClick={() => exportThankYou({ interviewer, company, position, body: preview, senderName: senderName || undefined, senderPhone: senderPhone || undefined, senderEmail: senderEmail || undefined })} disabled={exporting}>
               <Download className="mr-1.5 h-4 w-4" />
               {exporting ? "Exporting..." : "Export PDF"}
             </Button>

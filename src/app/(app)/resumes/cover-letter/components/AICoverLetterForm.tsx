@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { useToast } from "@/components/ui/Toast";
 import { Sparkles, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import type { Resume } from "@/types/resume";
+import { resumeToText } from "./resumeToText";
 
 interface GeneratedResult {
   recipientName: string;
@@ -18,48 +19,11 @@ interface GeneratedResult {
 
 interface AICoverLetterFormProps {
   savedResume: Resume | null;
+  hasExistingContent: boolean;
   onGenerated: (result: GeneratedResult) => void;
 }
 
-function resumeToText(resume: Resume): string {
-  const c = resume.content;
-  const lines: string[] = [];
-
-  if (c.contactInfo.name) lines.push(c.contactInfo.name);
-  const contactParts = [c.contactInfo.phone, c.contactInfo.email, c.contactInfo.linkedin].filter(Boolean);
-  if (contactParts.length) lines.push(contactParts.join(" | "));
-
-  if (c.profileOverview) {
-    lines.push("", "PROFILE", c.profileOverview);
-  }
-
-  if (c.experience.length > 0) {
-    lines.push("", "EXPERIENCE");
-    for (const exp of c.experience) {
-      const header = [exp.title, exp.company].filter(Boolean).join(" | ");
-      if (header) lines.push(`${header} — ${exp.dates}`);
-      if (exp.location) lines.push(exp.location);
-      for (const b of exp.bullets.filter(Boolean)) {
-        lines.push(`• ${b}`);
-      }
-    }
-  }
-
-  if (c.education.length > 0) {
-    lines.push("", "EDUCATION");
-    for (const edu of c.education) {
-      lines.push(`${edu.school} — ${edu.degree} (${edu.dates})`);
-    }
-  }
-
-  if (c.skills.length > 0) {
-    lines.push("", "SKILLS", c.skills.join(", "));
-  }
-
-  return lines.join("\n");
-}
-
-export function AICoverLetterForm({ savedResume, onGenerated }: AICoverLetterFormProps) {
+export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated }: AICoverLetterFormProps) {
   const { toast } = useToast();
   const [collapsed, setCollapsed] = useState(false);
   const [company, setCompany] = useState("");
@@ -77,6 +41,12 @@ export function AICoverLetterForm({ savedResume, onGenerated }: AICoverLetterFor
 
   async function generate() {
     if (!canGenerate) return;
+    if (hasExistingContent) {
+      const confirmed = window.confirm(
+        "This will replace your current cover letter content. Continue?"
+      );
+      if (!confirmed) return;
+    }
     setGenerating(true);
 
     try {
@@ -119,6 +89,7 @@ export function AICoverLetterForm({ savedResume, onGenerated }: AICoverLetterFor
     <section className="mb-6 rounded-xl border-l-4 border-l-ai-accent bg-purple-50 shadow-sm">
       <button
         onClick={() => setCollapsed(!collapsed)}
+        aria-expanded={!collapsed}
         className="flex w-full items-center justify-between p-5 text-left"
       >
         <div className="flex items-center gap-2">
@@ -135,7 +106,7 @@ export function AICoverLetterForm({ savedResume, onGenerated }: AICoverLetterFor
       {!collapsed && (
         <div className="space-y-4 px-5 pb-5">
           <p className="text-sm text-neutral-600">
-            Paste a job description and your resume. The AI will write a cover letter that connects your experience to what the job needs.
+            Paste a job description and your resume. The AI writes a first draft that maps your experience to the job — you edit it before saving.
           </p>
 
           {/* Job details */}
@@ -171,9 +142,10 @@ export function AICoverLetterForm({ savedResume, onGenerated }: AICoverLetterFor
             </label>
 
             {savedResume && (
-              <div className="mb-3 flex gap-2">
+              <div className="mb-3 flex flex-col gap-2 sm:flex-row">
                 <button
                   onClick={() => setResumeSource("saved")}
+                  aria-pressed={resumeSource === "saved"}
                   className={`flex-1 rounded-lg border p-3 text-left text-sm transition-colors ${
                     resumeSource === "saved"
                       ? "border-ai-accent bg-white text-neutral-800"
@@ -194,6 +166,7 @@ export function AICoverLetterForm({ savedResume, onGenerated }: AICoverLetterFor
                 </button>
                 <button
                   onClick={() => setResumeSource("pasted")}
+                  aria-pressed={resumeSource === "pasted"}
                   className={`rounded-lg border px-4 py-3 text-sm transition-colors ${
                     resumeSource === "pasted"
                       ? "border-ai-accent bg-white text-neutral-800"

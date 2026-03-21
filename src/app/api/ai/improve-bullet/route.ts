@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
   if (!allowed) {
     return NextResponse.json(
-      { error: "Daily AI limit reached. Create an account for more." },
+      { error: "Daily AI limit reached. Try again tomorrow." },
       { status: 429 }
     );
   }

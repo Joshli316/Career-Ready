@@ -47,7 +47,7 @@ export default function EmailGuidePage() {
               <ul className="mt-2 space-y-1 text-sm text-neutral-600">
                 <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>Address to the contact person if possible</li>
                 <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>1-2 short paragraphs explaining your qualifications</li>
-                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>Mention key qualifications from the job description</li>
+                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>Reference 1-2 skills from the job posting that match your experience</li>
               </ul>
             </div>
           </div>

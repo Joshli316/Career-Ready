@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
   const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
   if (!allowed) {
-    return NextResponse.json({ error: "Daily AI limit reached." }, { status: 429 });
+    return NextResponse.json({ error: "Daily AI limit reached. Try again tomorrow." }, { status: 429 });
   }
 
   let body: { coverLetter?: string; jobTitle?: string; company?: string };

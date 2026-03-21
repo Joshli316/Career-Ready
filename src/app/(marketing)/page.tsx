@@ -60,7 +60,7 @@ export default function Home() {
           </h1>
           <p className="mt-4 text-lg text-neutral-600">
             8 free tools that walk you from figuring out your strengths to acing the interview.
-            Built for recent graduates with no career coaching budget.
+            No career coach needed.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -86,7 +86,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="text-2xl font-bold text-neutral-800">Three phases, eight tools</h2>
           <p className="mt-2 text-neutral-500">
-            Follow a proven path from self-discovery to your first day on the job.
+            Work through them in order, or jump to what you need right now.
           </p>
           <div className="mt-8 flex items-center gap-3 text-sm">
             <span className="rounded-full bg-primary-50 px-3 py-1 font-medium text-primary-700">
