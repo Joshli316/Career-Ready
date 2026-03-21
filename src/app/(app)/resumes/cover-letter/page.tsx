@@ -13,10 +13,12 @@ import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Download, Eye, EyeOff } from "lucide-react";
 import { nanoid } from "nanoid";
 import { usePdfExport } from "@/hooks/usePdfExport";
-import type { CoverLetter } from "@/types/resume";
+import type { CoverLetter, Resume } from "@/types/resume";
+import { AICoverLetterForm } from "./components/AICoverLetterForm";
 
 export default function CoverLetterPage() {
   const storage = useStorage();
+  const [savedResume, setSavedResume] = useState<Resume | null>(null);
   const [letter, setLetter] = useState<CoverLetter>({
     id: nanoid(),
     title: "My Cover Letter",
@@ -38,9 +40,10 @@ export default function CoverLetterPage() {
   const [profile, setProfile] = useState<{ brandStatement?: string; powerStatement?: string } | null>(null);
 
   useEffect(() => {
-    Promise.all([storage.getCoverLetters(), storage.getProfile()]).then(([letters, p]) => {
+    Promise.all([storage.getCoverLetters(), storage.getProfile(), storage.getResumes()]).then(([letters, p, resumes]) => {
       if (letters.length > 0) setLetter(letters[0]);
       setProfile(p);
+      if (resumes.length > 0) setSavedResume(resumes[0]);
     });
   }, [storage]);
 
@@ -81,6 +84,23 @@ export default function CoverLetterPage() {
         Don't repeat your resume. Instead, connect the dots between your experience and what this
         specific job needs. Tell them why you want to work there.
       </Callout>
+
+      <AICoverLetterForm
+        savedResume={savedResume}
+        onGenerated={(result) => {
+          setLetter((prev) => ({
+            ...prev,
+            content: {
+              ...prev.content,
+              recipientName: result.recipientName,
+              company: result.company || prev.content.company,
+              opening: result.opening,
+              body: result.body,
+              closing: result.closing,
+            },
+          }));
+        }}
+      />
 
       <div className="flex flex-col gap-6 md:flex-row">
         <div className={`flex-1 space-y-6 ${showPreview ? "hidden md:block" : ""}`}>
