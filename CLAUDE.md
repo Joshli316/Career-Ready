@@ -135,5 +135,33 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 | Add a PDF template | `src/lib/pdf/templates/` |
 | Run tests | `pnpm test` |
 | Run E2E tests | `pnpm test:e2e` |
+| Deploy to Cloudflare | `npx @cloudflare/next-on-pages && npx wrangler pages deploy .vercel/output/static` |
 | Deploy preview | Push to any branch (auto-deploys) |
 | Deploy production | Merge to `main` |
+
+## Shared Hooks & Components (added 2026-03-20)
+
+- **`useProfileSave`** — handles get/merge/set profile pattern for 12+ pages. Returns `{ saved, save, storage }`.
+- **`SavedIndicator`** — `aria-live="polite"` indicator, used across all save-capable pages.
+- **`ToggleButton`** — checkbox-style toggle with `role="checkbox"` and `aria-checked`.
+- **`TabStrip`** — accessible tab bar with `role="tablist/tab"` and `aria-selected`.
+- **`Breadcrumb`** — back-navigation link, used on all 22 sub-pages.
+- **`AICoverLetterForm`** — AI cover letter generator in `resumes/cover-letter/components/`.
+- **`resumeToText`** — converts Resume object to plain text for AI prompts.
+
+## Session Log
+
+### 2026-03-20 — main
+
+**What was done:**
+- Expert panel (180 fixes), review, refactor, polish, preflight (18/18), security, roast — all applied
+- Built AI cover letter generator (paste JD + resume, get tailored letter)
+- Tested Resume Builder + Cover Letter Builder E2E with Playwright, exported PDFs
+- Deployed to Cloudflare Pages
+
+**Open items:**
+- `.github/workflows/ci.yml` not pushed (OAuth needs `workflow` scope)
+- `CLAUDE_API_KEY` not set on Cloudflare — AI features return 503
+- D1 migration `0002` not yet run on remote
+
+**Next session:** Run `npx wrangler secret put CLAUDE_API_KEY` and D1 migration
