@@ -10,7 +10,8 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { CheckCircle, Plus, Star, Trash2 } from "lucide-react";
+import { TabStrip } from "@/components/ui/TabStrip";
+import { CheckCircle, Star, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { StarStory, InterviewPrep } from "@/types/interview";
 
@@ -122,29 +123,12 @@ export default function StarMethodPage() {
       </div>
 
       {/* Story tabs */}
-      <div className="mb-4 flex items-center gap-2 overflow-x-auto">
-        {stories.map((s, i) => (
-          <button
-            key={s.id}
-            onClick={() => setActiveIndex(i)}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-              i === activeIndex
-                ? "bg-primary-400 text-white"
-                : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
-            }`}
-          >
-            <Star className="h-3.5 w-3.5" />
-            Story {i + 1}
-          </button>
-        ))}
-        <button
-          onClick={addStory}
-          className="flex items-center gap-1 rounded-lg border border-dashed border-neutral-300 px-3 py-1.5 text-sm text-neutral-500 hover:border-primary-300 hover:text-primary-500"
-        >
-          <Plus className="h-3.5 w-3.5" />
-          New
-        </button>
-      </div>
+      <TabStrip
+        tabs={stories.map((s, i) => ({ id: s.id, label: `Story ${i + 1}` }))}
+        activeId={stories[activeIndex]?.id ?? ""}
+        onSelect={(id) => { const idx = stories.findIndex((s) => s.id === id); if (idx >= 0) setActiveIndex(idx); }}
+        onAdd={addStory}
+      />
 
       {/* Suggested questions */}
       <Callout type="tip" className="mb-4">

@@ -14,6 +14,7 @@ import { ExperienceSection } from "./components/ExperienceSection";
 import { ResumePreview } from "./components/ResumePreview";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import { TabStrip } from "@/components/ui/TabStrip";
 import { Plus, Trash2, Eye, EyeOff, Download, Wand2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { Resume, ResumeTemplate } from "@/types/resume";
@@ -144,12 +145,12 @@ export default function ResumeBuilderPage() {
         </div>
       </div>
 
-      <div className="mb-4 flex items-center gap-2 overflow-x-auto">
-        {resumes.map((r) => (
-          <button key={r.id} onClick={() => switchResume(r.id)} className={`rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap ${r.id === resume.id ? "bg-primary-400 text-white" : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"}`}>{r.title}</button>
-        ))}
-        <button onClick={newResume} className="flex items-center gap-1 rounded-lg border border-dashed border-neutral-300 px-3 py-1.5 text-sm text-neutral-500 hover:border-primary-300"><Plus className="h-3.5 w-3.5" /> New</button>
-      </div>
+      <TabStrip
+        tabs={resumes.map((r) => ({ id: r.id, label: r.title }))}
+        activeId={resume.id}
+        onSelect={switchResume}
+        onAdd={newResume}
+      />
 
       {profile?.skills?.length || profile?.brandStatement ? (
         <div className="mb-4 flex items-center justify-between rounded-lg border border-primary-200 bg-primary-50 px-4 py-3">

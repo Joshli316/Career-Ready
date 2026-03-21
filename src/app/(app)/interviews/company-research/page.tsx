@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { CheckCircle, Plus, Trash2 } from "lucide-react";
+import { TabStrip } from "@/components/ui/TabStrip";
+import { CheckCircle, Trash2 } from "lucide-react";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
@@ -86,18 +87,12 @@ export default function CompanyResearchPage() {
         locations, recent news, the role's purpose, growth opportunities, and salary/benefits.
       </Callout>
 
-      <div className="mb-4 flex items-center gap-2 overflow-x-auto">
-        {entries.map((e, i) => (
-          <button key={i} onClick={() => setActive(i)}
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap ${i === active ? "bg-primary-400 text-white" : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"}`}>
-            {e.company || `Company ${i + 1}`}
-          </button>
-        ))}
-        <button onClick={() => { setEntries([...entries, emptyResearch()]); setActive(entries.length); }}
-          className="flex items-center gap-1 rounded-lg border border-dashed border-neutral-300 px-3 py-1.5 text-sm text-neutral-500 hover:border-primary-300">
-          <Plus className="h-3.5 w-3.5" />New
-        </button>
-      </div>
+      <TabStrip
+        tabs={entries.map((e, i) => ({ id: String(i), label: e.company || `Company ${i + 1}` }))}
+        activeId={String(active)}
+        onSelect={(id) => setActive(Number(id))}
+        onAdd={() => { setEntries([...entries, emptyResearch()]); setActive(entries.length); }}
+      />
 
       {entry && (
         <div className="space-y-4 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">

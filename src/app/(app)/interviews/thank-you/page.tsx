@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -8,6 +8,7 @@ import { Callout } from "@/components/ui/Callout";
 import { usePdfExport } from "@/hooks/usePdfExport";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { useStorage } from "@/hooks/useStorage";
+import { useToast } from "@/components/ui/Toast";
 import { Download, Copy, Eye, EyeOff } from "lucide-react";
 
 export default function ThankYouPage() {
@@ -20,8 +21,13 @@ export default function ThankYouPage() {
   const [senderPhone, setSenderPhone] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
   const { exportThankYou, exporting } = usePdfExport();
+  const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showPreview, setShowPreview] = useState(false);
+
+  // Clean up timeout on unmount
+  useEffect(() => () => clearTimeout(copiedTimerRef.current), []);
 
   useEffect(() => {
     storage.getResumes().then((resumes) => {
@@ -46,6 +52,17 @@ Best Regards,
 ${senderName || "[Your Name]"}
 ${senderPhone || "[Your Phone]"}
 ${senderEmail || "[Your Email]"}`;
+
+  const copyToClipboard = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(preview);
+      setCopied(true);
+      clearTimeout(copiedTimerRef.current);
+      copiedTimerRef.current = setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast("Couldn't copy — try selecting the text manually.", "error");
+    }
+  }, [preview, toast]);
 
   return (
     <div>
@@ -77,7 +94,7 @@ ${senderEmail || "[Your Email]"}`;
             <Textarea label="Key Discussion Points / Why You're Excited" value={highlights} onChange={(e) => setHighlights(e.target.value)} rows={4} placeholder="Mention specific things discussed, what excited you about the role..." />
           </div>
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => { navigator.clipboard.writeText(preview); setCopied(true); setTimeout(() => setCopied(false), 2000); }}>
+            <Button variant="secondary" onClick={copyToClipboard}>
               <Copy className="mr-1.5 h-4 w-4" />
               {copied ? "Copied!" : "Copy to Clipboard"}
             </Button>
