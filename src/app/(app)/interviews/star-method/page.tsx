@@ -2,10 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { CheckCircle, Plus, Star, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { StarStory, InterviewPrep } from "@/types/interview";
@@ -33,7 +36,9 @@ export default function StarMethodPage() {
   const storage = useStorage();
   const [stories, setStories] = useState<StarStory[]>([emptyStory()]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [saved, setSaved] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getInterviewPrep().then((prep) => {
@@ -44,16 +49,20 @@ export default function StarMethodPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const prep = (await storage.getInterviewPrep()) ?? {
-      commonResponses: [],
-      starStories: [],
-      companyResearch: [],
-      thankYouNotes: [],
-    };
-    await storage.setInterviewPrep({ ...prep, starStories: stories });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, stories]);
+    try {
+      const prep = (await storage.getInterviewPrep()) ?? {
+        commonResponses: [],
+        starStories: [],
+        companyResearch: [],
+        thankYouNotes: [],
+      };
+      await storage.setInterviewPrep({ ...prep, starStories: stories });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, stories, showSaved, toast]);
 
   function updateStory(field: keyof StarStory, value: string) {
     const updated = [...stories];
@@ -72,6 +81,7 @@ export default function StarMethodPage() {
     const updated = stories.filter((_, i) => i !== index);
     setStories(updated);
     setActiveIndex(Math.min(activeIndex, updated.length - 1));
+    toast("Story deleted");
   }
 
   const story = stories[activeIndex];
@@ -191,7 +201,7 @@ export default function StarMethodPage() {
           <div className="flex items-center justify-between border-t border-neutral-100 pt-4">
             {stories.length > 1 && (
               <button
-                onClick={() => deleteStory(activeIndex)}
+                onClick={() => setDeleteIndex(activeIndex)}
                 className="flex items-center gap-1.5 text-sm text-error hover:text-red-700"
               >
                 <Trash2 className="h-4 w-4" />
@@ -210,6 +220,17 @@ export default function StarMethodPage() {
         You have <strong className="text-neutral-800">{stories.length}</strong> STAR {stories.length === 1 ? "story" : "stories"} saved.
         Aim for 4-6 stories that cover different scenarios.
       </div>
+
+      <ConfirmDialog
+        open={deleteIndex !== null}
+        title="Delete STAR Story"
+        message="This story will be permanently deleted."
+        onConfirm={() => {
+          deleteStory(deleteIndex!);
+          setDeleteIndex(null);
+        }}
+        onCancel={() => setDeleteIndex(null)}
+      />
     </div>
   );
 }

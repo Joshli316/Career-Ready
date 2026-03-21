@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Callout } from "@/components/ui/Callout";
@@ -47,7 +49,8 @@ export default function SkillsPage() {
   const [newSkill, setNewSkill] = useState("");
   const [newCategory, setNewCategory] = useState<"soft" | "hard">("soft");
   const [newSource, setNewSource] = useState("");
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -59,12 +62,16 @@ export default function SkillsPage() {
 
   const save = useCallback(
     async (updated: Skill[]) => {
-      const profile = (await storage.getProfile()) ?? {};
-      await storage.setProfile({ ...profile, skills: updated });
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
+      try {
+        const profile = (await storage.getProfile()) ?? {};
+        await storage.setProfile({ ...profile, skills: updated });
+        showSaved();
+        toast("Saved successfully", "success");
+      } catch {
+        toast("Failed to save. Please try again.", "error");
+      }
     },
-    [storage]
+    [storage, showSaved, toast]
   );
 
   function toggleSoftSkill(name: string) {
@@ -132,6 +139,7 @@ export default function SkillsPage() {
               <button
                 key={skill}
                 onClick={() => toggleSoftSkill(skill)}
+                aria-pressed={selected}
                 className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
                   selected
                     ? "border-primary-400 bg-primary-50 text-primary-700"

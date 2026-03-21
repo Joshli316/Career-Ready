@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -18,7 +20,8 @@ export default function BeliefsPage() {
   const [challenges, setChallenges] = useState<Array<{ challenge: string; solution: string }>>([
     { challenge: "", solution: "" },
   ]);
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -33,17 +36,21 @@ export default function BeliefsPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const profile = (await storage.getProfile()) ?? {};
-    await storage.setProfile({
-      ...profile,
-      beliefs: {
-        positive: [iAm, iCan, iHave],
-        challenges: challenges.filter((c) => c.challenge || c.solution),
-      },
-    });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, iAm, iCan, iHave, challenges]);
+    try {
+      const profile = (await storage.getProfile()) ?? {};
+      await storage.setProfile({
+        ...profile,
+        beliefs: {
+          positive: [iAm, iCan, iHave],
+          challenges: challenges.filter((c) => c.challenge || c.solution),
+        },
+      });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, iAm, iCan, iHave, challenges, showSaved, toast]);
 
   function updateChallenge(index: number, field: "challenge" | "solution", value: string) {
     const updated = [...challenges];

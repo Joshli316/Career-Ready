@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { CheckCircle, GripVertical } from "lucide-react";
@@ -18,7 +20,8 @@ const VALUES = [
 export default function WorkValuesPage() {
   const storage = useStorage();
   const [rankings, setRankings] = useState(VALUES.map((v, i) => ({ ...v, rank: i + 1 })));
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -33,14 +36,18 @@ export default function WorkValuesPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const profile = (await storage.getProfile()) ?? {};
-    await storage.setProfile({
-      ...profile,
-      workValues: rankings.map((r, i) => ({ value: r.value, rank: i + 1 })),
-    });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, rankings]);
+    try {
+      const profile = (await storage.getProfile()) ?? {};
+      await storage.setProfile({
+        ...profile,
+        workValues: rankings.map((r, i) => ({ value: r.value, rank: i + 1 })),
+      });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, rankings, showSaved, toast]);
 
   function moveUp(index: number) {
     if (index === 0) return;
@@ -95,6 +102,7 @@ export default function WorkValuesPage() {
               <button
                 onClick={() => moveUp(index)}
                 disabled={index === 0}
+                aria-label={`Move ${item.value} up`}
                 className="rounded p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 disabled:opacity-30"
               >
                 ▲
@@ -102,6 +110,7 @@ export default function WorkValuesPage() {
               <button
                 onClick={() => moveDown(index)}
                 disabled={index === rankings.length - 1}
+                aria-label={`Move ${item.value} down`}
                 className="rounded p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 disabled:opacity-30"
               >
                 ▼

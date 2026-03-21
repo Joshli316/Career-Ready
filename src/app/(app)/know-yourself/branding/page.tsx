@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -15,7 +17,8 @@ export default function BrandingPage() {
   const [skills, setSkills] = useState("");
   const [accomplishments, setAccomplishments] = useState("");
   const [brandStatement, setBrandStatement] = useState("");
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -24,11 +27,15 @@ export default function BrandingPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const profile = (await storage.getProfile()) ?? {};
-    await storage.setProfile({ ...profile, brandStatement });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, brandStatement]);
+    try {
+      const profile = (await storage.getProfile()) ?? {};
+      await storage.setProfile({ ...profile, brandStatement });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, brandStatement, showSaved, toast]);
 
   return (
     <div>

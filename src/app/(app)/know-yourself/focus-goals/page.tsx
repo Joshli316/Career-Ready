@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -29,7 +31,8 @@ const emptyGoal: FocusGoal = {
 export default function FocusGoalsPage() {
   const storage = useStorage();
   const [focusGoal, setFocusGoal] = useState<FocusGoal>(emptyGoal);
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -40,11 +43,15 @@ export default function FocusGoalsPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const profile = (await storage.getProfile()) ?? {};
-    await storage.setProfile({ ...profile, focusGoals: [focusGoal] });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, focusGoal]);
+    try {
+      const profile = (await storage.getProfile()) ?? {};
+      await storage.setProfile({ ...profile, focusGoals: [focusGoal] });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, focusGoal, showSaved, toast]);
 
   function updateSteps(phase: keyof FocusGoal["steps"], index: number, value: string) {
     const steps = { ...focusGoal.steps };

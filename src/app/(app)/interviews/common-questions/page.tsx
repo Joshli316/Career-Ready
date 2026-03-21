@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
@@ -78,7 +80,8 @@ export default function CommonQuestionsPage() {
   const storage = useStorage();
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
   const [powerStatement, setPowerStatement] = useState("");
 
   useEffect(() => {
@@ -95,19 +98,23 @@ export default function CommonQuestionsPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const prep = (await storage.getInterviewPrep()) ?? {
-      commonResponses: [],
-      starStories: [],
-      companyResearch: [],
-      thankYouNotes: [],
-    };
-    const commonResponses: InterviewResponse[] = Object.entries(responses)
-      .filter(([_, answer]) => answer.trim())
-      .map(([question, answer]) => ({ question, answer, category: "common" }));
-    await storage.setInterviewPrep({ ...prep, commonResponses });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, responses]);
+    try {
+      const prep = (await storage.getInterviewPrep()) ?? {
+        commonResponses: [],
+        starStories: [],
+        companyResearch: [],
+        thankYouNotes: [],
+      };
+      const commonResponses: InterviewResponse[] = Object.entries(responses)
+        .filter(([_, answer]) => answer.trim())
+        .map(([question, answer]) => ({ question, answer, category: "common" }));
+      await storage.setInterviewPrep({ ...prep, commonResponses });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, responses, showSaved, toast]);
 
   const answeredCount = Object.values(responses).filter((v) => v.trim()).length;
 

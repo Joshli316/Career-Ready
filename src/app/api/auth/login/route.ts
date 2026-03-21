@@ -1,10 +1,11 @@
 export const runtime = "edge";
 
-import { NextRequest, NextResponse } from "next/server";
-
-export async function POST(request: NextRequest) {
-  return NextResponse.json(
-    { message: "Login requires Cloudflare D1. Use localStorage for now." },
+export function POST() {
+  return Response.json(
+    {
+      error: "Login is coming soon. Your data is saved locally in your browser.",
+      code: "AUTH_NOT_AVAILABLE",
+    },
     { status: 501 }
   );
 }

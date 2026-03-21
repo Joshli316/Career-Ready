@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     });
 
     const text = message.content[0].type === "text" ? message.content[0].text : "";
-    return NextResponse.json({ feedback: text, remaining });
+    return NextResponse.json({ result: text, remaining });
   } catch {
     return NextResponse.json({ error: "AI request failed" }, { status: 500 });
   }

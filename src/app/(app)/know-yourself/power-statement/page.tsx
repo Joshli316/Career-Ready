@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
@@ -11,7 +13,8 @@ export default function PowerStatementPage() {
   const storage = useStorage();
   const [powerStatement, setPowerStatement] = useState("");
   const [brandStatement, setBrandStatement] = useState("");
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -21,11 +24,15 @@ export default function PowerStatementPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    const profile = (await storage.getProfile()) ?? {};
-    await storage.setProfile({ ...profile, powerStatement });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, powerStatement]);
+    try {
+      const profile = (await storage.getProfile()) ?? {};
+      await storage.setProfile({ ...profile, powerStatement });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, powerStatement, showSaved, toast]);
 
   return (
     <div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Building2 } from "lucide-react";
 import { useStorage } from "@/hooks/useStorage";
+import { CardSkeleton } from "@/components/ui/Skeleton";
 import type { EmployerContact } from "@/types/contact";
 
 const statusLabels: Record<string, { label: string; color: string }> = {
@@ -19,9 +20,13 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 export default function ContactLogPage() {
   const storage = useStorage();
   const [contacts, setContacts] = useState<EmployerContact[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    storage.getContacts().then(setContacts);
+    storage.getContacts().then((data) => {
+      setContacts(data);
+      setLoading(false);
+    });
   }, [storage]);
 
   return (
@@ -35,6 +40,13 @@ export default function ContactLogPage() {
         </div>
       </div>
 
+      {loading ? (
+        <div>
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+      ) : (
+      <>
       {/* Stats */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
@@ -75,6 +87,8 @@ export default function ContactLogPage() {
             </div>
           ))}
         </div>
+      )}
+      </>
       )}
     </div>
   );
