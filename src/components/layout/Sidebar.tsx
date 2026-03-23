@@ -11,7 +11,7 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex md:w-60 md:flex-col md:border-r md:border-neutral-150 md:bg-white">
       <div className="flex h-16 items-center border-b border-neutral-150 px-6">
-        <Link href="/dashboard" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-900">
             <span className="text-sm font-bold text-white">CR</span>
           </div>
