@@ -38,7 +38,9 @@
   --color-purple-50: #F3EEFF;
   --color-purple-700: #6B21A8;
 
-  --color-surface-dark: #191919;
+  --color-surface-dark: #0B1120;
+  --color-surface-mid: #0F172A;
+  --color-surface-lighter: #1E293B;
   --color-accent-blue: #2382E2;
   --color-accent-blue-hover: #1A6EC4;
 
@@ -59,6 +61,57 @@ body {
 ::selection {
   background-color: var(--color-accent-blue);
   color: white;
+}
+
+/* Hero gradient and decorative orbs */
+.hero-gradient {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, #1E3A5F 0%, #0B1120 100%);
+}
+
+.hero-orb-blue {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(35, 130, 226, 0.18) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.hero-orb-purple {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.14) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Phase gradient blocks */
+.phase-gradient-green {
+  background: linear-gradient(135deg, #B5E09A 0%, #5FA03A 60%, #3F7528 100%);
+}
+
+.phase-gradient-blue {
+  background: linear-gradient(135deg, #93C5FD 0%, #3B82F6 60%, #1D4ED8 100%);
+}
+
+.phase-gradient-purple {
+  background: linear-gradient(135deg, #C4B5FD 0%, #8B5CF6 60%, #6D28D9 100%);
+}
+
+/* Card gradient headers */
+.card-header-green {
+  background: linear-gradient(135deg, #D8F0C8, #B5E09A);
+}
+
+.card-header-blue {
+  background: linear-gradient(135deg, #DBEAFE, #93C5FD);
+}
+
+.card-header-purple {
+  background: linear-gradient(135deg, #EDE9FE, #C4B5FD);
 }
 
 @media print {
