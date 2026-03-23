@@ -12,10 +12,10 @@ const sections = [
 ];
 
 const platformTips = [
-  { name: "LinkedIn", tip: "Build a complete profile, add a professional photo, and request recommendations from professors or supervisors." },
-  { name: "X (Twitter)", tip: "Follow companies you want to work for. Share industry articles. Keep your handle professional." },
-  { name: "Instagram", tip: "Set personal accounts to private. If public, make sure posts match your professional brand." },
-  { name: "Facebook", tip: "Review tagged photos and old posts. Adjust privacy settings so only friends see personal content." },
+  { name: "LinkedIn", tip: "Build a complete profile, add a professional photo, and request recommendations from professors or supervisors.", url: "https://www.linkedin.com" },
+  { name: "X (Twitter)", tip: "Follow companies you want to work for. Share industry articles. Keep your handle professional.", url: "https://x.com" },
+  { name: "Instagram", tip: "Set personal accounts to private. If public, make sure posts match your professional brand.", url: "https://www.instagram.com" },
+  { name: "Facebook", tip: "Review tagged photos and old posts. Adjust privacy settings so only friends see personal content.", url: "https://www.facebook.com/settings/?tab=privacy" },
 ];
 
 export default function SocialMediaPage() {
@@ -37,10 +37,10 @@ export default function SocialMediaPage() {
       <h2 className="mt-10 mb-4 text-xl font-bold text-neutral-800">Platform Quick Tips</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         {platformTips.map((p) => (
-          <div key={p.name} className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
-            <h3 className="font-semibold text-neutral-800">{p.name}</h3>
+          <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300">
+            <h3 className="font-semibold text-neutral-800 group-hover:text-primary-400">{p.name}</h3>
             <p className="mt-1 text-sm text-neutral-500">{p.tip}</p>
-          </div>
+          </a>
         ))}
       </div>
     </div>
