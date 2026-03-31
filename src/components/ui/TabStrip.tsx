@@ -27,7 +27,7 @@ export function TabStrip({ tabs, activeId, onSelect, onAdd, addLabel = "New" }: 
             role="tab"
             aria-selected={isActive}
             onClick={() => onSelect(tab.id)}
-            className={`rounded-lg px-3 py-1.5 min-h-[44px] items-center text-sm font-medium whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
+            className={`flex rounded-lg px-3 py-1.5 min-h-[44px] items-center text-sm font-medium whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
               isActive
                 ? "bg-primary-400 text-white"
                 : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"

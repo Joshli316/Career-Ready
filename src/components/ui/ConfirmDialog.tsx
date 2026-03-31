@@ -36,6 +36,9 @@ export function ConfirmDialog({
   return (
     <dialog
       ref={dialogRef}
+      role="alertdialog"
+      aria-labelledby="confirm-dialog-title"
+      aria-describedby="confirm-dialog-message"
       className="fixed inset-0 z-50 m-auto w-full max-w-sm rounded-xl border border-neutral-150 bg-white p-6 shadow-xl backdrop:bg-black/40 backdrop:backdrop-blur-sm"
       onClose={onCancel}
     >
@@ -44,8 +47,8 @@ export function ConfirmDialog({
           <AlertTriangle className="h-5 w-5 text-error" />
         </div>
         <div>
-          <h3 className="font-semibold text-neutral-800">{title}</h3>
-          <p className="mt-1 text-sm text-neutral-500">{message}</p>
+          <h3 id="confirm-dialog-title" className="font-semibold text-neutral-800">{title}</h3>
+          <p id="confirm-dialog-message" className="mt-1 text-sm text-neutral-500">{message}</p>
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-3">

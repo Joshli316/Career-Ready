@@ -84,7 +84,16 @@ export async function POST(request: NextRequest) {
       message.content[0]?.type === "text" ? message.content[0].text : "";
     const jsonText = stripCodeFences(rawText);
 
-    const parsed = JSON.parse(jsonText);
+    let parsed: Record<string, unknown>;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch {
+      console.error("[mock-summary] Failed to parse AI response as JSON");
+      return NextResponse.json(
+        { error: "Could not parse AI response. Try again.", code: "PARSE_FAILED" },
+        { status: 502, headers: rateLimitHeaders(remaining, limit) }
+      );
+    }
 
     const result = {
       overall: typeof parsed.overall === "string" ? parsed.overall : "",

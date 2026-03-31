@@ -15,7 +15,7 @@ export default function Error({
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-6">
-      <div className="text-center">
+      <div className="text-center" role="alert">
         <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50">
           <span className="text-2xl text-error">!</span>
         </div>
