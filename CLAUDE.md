@@ -147,6 +147,20 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - **`AICoverLetterForm`** — AI cover letter generator in `resumes/cover-letter/components/`.
 - **`resumeToText`** — converts Resume object to plain text for AI prompts.
 
+## i18n (added 2026-03-31)
+
+- **Architecture:** JSON translation files + React Context. No external i18n library.
+- **Files:** `src/lib/i18n/en.json`, `src/lib/i18n/zh.json` (970 strings each, must stay in parity)
+- **Context:** `src/lib/i18n/LanguageContext.tsx` — provides `useLanguage()` hook with `t(key)`, `language`, `setLanguage`
+- **`useTranslations()`** — returns full translation object for array access (checklist items, audit items) since `t()` only returns strings
+- **Toggle:** `src/components/ui/LanguageToggle.tsx` — in Sidebar (desktop) and TopNav (mobile)
+- **localStorage key:** `careerready-lang` — defaults to `"en"`
+- **Font stack:** Inter + PingFang SC + Microsoft YaHei + Hiragino Sans GB (system Chinese fonts, no downloads)
+- **What gets translated:** All UI text, nav, headings, buttons, placeholders, aria-labels, callouts, tips
+- **What stays English:** User-entered data, AI responses, resume PDF content, URLs, brand name "CareerReady"
+- **Pages outside `(app)` layout** (marketing, not-found, error) wrap content in their own `<LanguageProvider>`
+- **SEO metadata** lives in `layout.tsx` files (server components), not in page.tsx (client components)
+
 ## AI Routes
 
 - **`AI_MODEL`** constant in `src/lib/ai/client.ts` — single source of truth for the Claude model version used across all 7 AI routes. Change it once to update everywhere.
@@ -154,6 +168,28 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - Rate limiting falls back to in-memory when `getRequestContext()` is unavailable (local dev).
 
 ## Session Log
+
+### 2026-03-31 — main
+
+**What was done:**
+- Built full bilingual i18n system: 970 EN + 970 ZH strings across 92 files
+- LanguageContext + useLanguage hook + LanguageToggle in sidebar/header
+- Chinese system fonts added to font stack
+- 10 layout.tsx files created to restore SEO metadata after client component conversion
+- CSP + security headers via `public/_headers`
+- Expert panel: 10 executives × 3 rounds = ~139 findings applied (copy, a11y, mobile, SEO, design)
+- OG image redesigned (dark gradient, bilingual tagline)
+- JSON-LD enriched (featureList, inLanguage, availability)
+- hreflang alternates, expanded keywords, viewport export
+- 2 GitHub Issues created (#1 remote storage, #2 auth V2)
+- Deployed to Cloudflare Pages (commit `53da382`)
+
+**Open items:**
+- `CLAUDE_API_KEY` not set on Cloudflare — AI features return 503
+- D1 migration `0002` not yet run on remote
+- `.github/workflows/ci.yml` not pushed
+
+**Next session:** Run `npx wrangler secret put CLAUDE_API_KEY` and D1 migrations in Terminal
 
 ### 2026-03-23 — main
 
