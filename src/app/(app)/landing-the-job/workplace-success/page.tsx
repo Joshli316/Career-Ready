@@ -2,6 +2,7 @@
 
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import en from "@/lib/i18n/en.json";
 import zh from "@/lib/i18n/zh.json";
@@ -45,6 +46,8 @@ export default function WorkplaceSuccessPage() {
           );
         })}
       </div>
+
+      <NextStepLink href="/landing-the-job/self-evaluation" labelKey="landingTheJob.sections.selfEvaluation.title" />
     </div>
   );
 }

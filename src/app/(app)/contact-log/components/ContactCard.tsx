@@ -38,11 +38,13 @@ interface ContactCardProps {
   editStatus: ContactStatus;
   editNotes: string;
   editDateApplied: string;
+  editFollowUpDate: string;
   onEditCompanyChange: (value: string) => void;
   onEditPositionChange: (value: string) => void;
   onEditStatusChange: (value: ContactStatus) => void;
   onEditNotesChange: (value: string) => void;
   onEditDateChange: (value: string) => void;
+  onEditFollowUpDateChange: (value: string) => void;
   onStartEditing: (contact: EmployerContact) => void;
   onCancelEditing: () => void;
   onSaveEdit: () => void;
@@ -58,11 +60,13 @@ export function ContactCard({
   editStatus,
   editNotes,
   editDateApplied,
+  editFollowUpDate,
   onEditCompanyChange,
   onEditPositionChange,
   onEditStatusChange,
   onEditNotesChange,
   onEditDateChange,
+  onEditFollowUpDateChange,
   onStartEditing,
   onCancelEditing,
   onSaveEdit,
@@ -109,6 +113,21 @@ export function ContactCard({
               value={editDateApplied}
               max={new Date().toISOString().split("T")[0]}
               onChange={(e) => onEditDateChange(e.target.value)}
+              className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label
+              htmlFor={`edit-followup-${contact.id}`}
+              className="block text-sm font-medium text-neutral-700"
+            >
+              {t("contactLog.form.followUpDate")}
+            </label>
+            <input
+              id={`edit-followup-${contact.id}`}
+              type="date"
+              value={editFollowUpDate}
+              onChange={(e) => onEditFollowUpDateChange(e.target.value)}
               className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
             />
           </div>
@@ -187,12 +206,20 @@ export function ContactCard({
           {contact.notes}
         </p>
       )}
-      {contact.dateApplied && (
-        <p className="mt-1 text-xs text-neutral-400">
-          {t("contactLog.form.added")}{" "}
-          {new Date(contact.dateApplied).toLocaleDateString()}
-        </p>
-      )}
+      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+        {contact.dateApplied && (
+          <p className="text-xs text-neutral-400">
+            {t("contactLog.form.added")}{" "}
+            {new Date(contact.dateApplied).toLocaleDateString()}
+          </p>
+        )}
+        {contact.followUpDate && (
+          <p className="text-xs text-orange-500 font-medium">
+            {t("contactLog.form.followUpDate")}:{" "}
+            {new Date(contact.followUpDate).toLocaleDateString()}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

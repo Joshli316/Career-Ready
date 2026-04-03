@@ -10,6 +10,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { Download, Copy, Eye, EyeOff } from "lucide-react";
 
 export default function ThankYouPage() {
@@ -113,6 +114,8 @@ ${senderEmail || t("common.yourEmail")}`;
           </div>
         </div>
       </div>
+
+      <NextStepLink href="/contact-log" labelKey="tools.contactLog.name" />
     </div>
   );
 }

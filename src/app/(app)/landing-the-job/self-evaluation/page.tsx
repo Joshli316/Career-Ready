@@ -6,6 +6,7 @@ import { Callout } from "@/components/ui/Callout";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import en from "@/lib/i18n/en.json";
 import zh from "@/lib/i18n/zh.json";
@@ -105,6 +106,7 @@ export default function SelfEvaluationPage() {
           </span>
         )}
       </div>
+
     </div>
   );
 }

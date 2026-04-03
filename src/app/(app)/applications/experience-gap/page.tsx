@@ -5,6 +5,7 @@ import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ToggleButton } from "@/components/ui/ToggleButton";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import en from "@/lib/i18n/en.json";
 import zh from "@/lib/i18n/zh.json";
 
@@ -83,6 +84,8 @@ export default function ExperienceGapPage() {
           </div>
         </div>
       )}
+
+      <NextStepLink href="/applications/master-builder" labelKey="applications.sections.masterBuilder.title" />
     </div>
   );
 }

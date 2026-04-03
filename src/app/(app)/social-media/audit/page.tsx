@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
@@ -117,6 +118,8 @@ export default function AuditPage() {
         <SavedIndicator visible={saved} />
         <Button onClick={handleSave} size="lg">{t("socialMedia.audit.saveAudit")}</Button>
       </div>
+
+      <NextStepLink href="/interviews" labelKey="tools.interviews.name" />
     </div>
   );
 }

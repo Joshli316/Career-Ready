@@ -6,6 +6,7 @@ import { ToggleButton } from "@/components/ui/ToggleButton";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import en from "@/lib/i18n/en.json";
 import zh from "@/lib/i18n/zh.json";
@@ -96,6 +97,8 @@ export default function ChecklistPage() {
       <div className="mt-6 flex justify-end">
         <Button onClick={handleSave} size="lg">{t("jobSearch.checklist.saveProgress")}</Button>
       </div>
+
+      <NextStepLink href="/social-media" labelKey="tools.socialMedia.name" />
     </div>
   );
 }

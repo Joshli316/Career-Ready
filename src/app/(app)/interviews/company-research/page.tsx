@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { TabStrip } from "@/components/ui/TabStrip";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { CheckCircle, Trash2 } from "lucide-react";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
@@ -119,6 +120,8 @@ export default function CompanyResearchPage() {
       <div className="mt-6 flex justify-end">
         <Button onClick={save} size="lg">{t("interviews.companyResearch.saveResearch")}</Button>
       </div>
+
+      <NextStepLink href="/interviews/thank-you" labelKey="interviews.sections.thankYou.title" />
     </div>
   );
 }

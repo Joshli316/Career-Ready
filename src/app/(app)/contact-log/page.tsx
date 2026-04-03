@@ -36,6 +36,8 @@ export default function ContactLogPage() {
   const [formPosition, setFormPosition] = useState("");
   const [formStatus, setFormStatus] = useState<ContactStatus>("saved");
   const [formNotes, setFormNotes] = useState("");
+  const [formDateApplied, setFormDateApplied] = useState("");
+  const [formFollowUpDate, setFormFollowUpDate] = useState("");
 
   // Edit state
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -44,6 +46,7 @@ export default function ContactLogPage() {
   const [editStatus, setEditStatus] = useState<ContactStatus>("applied");
   const [editNotes, setEditNotes] = useState("");
   const [editDateApplied, setEditDateApplied] = useState("");
+  const [editFollowUpDate, setEditFollowUpDate] = useState("");
 
   // Delete confirmation state
   const [deleteTarget, setDeleteTarget] = useState<EmployerContact | null>(null);
@@ -64,7 +67,8 @@ export default function ContactLogPage() {
       position: formPosition.trim(),
       status: formStatus,
       notes: formNotes.trim() || undefined,
-      dateApplied: now,
+      dateApplied: formDateApplied ? new Date(formDateApplied).toISOString() : now,
+      followUpDate: formFollowUpDate ? new Date(formFollowUpDate).toISOString() : undefined,
       createdAt: now,
       updatedAt: now,
     };
@@ -75,12 +79,14 @@ export default function ContactLogPage() {
       setFormPosition("");
       setFormStatus("saved");
       setFormNotes("");
+      setFormDateApplied("");
+      setFormFollowUpDate("");
       setShowForm(false);
       toast(t("contactLog.contactAdded"));
     } catch {
       toast(t("contactLog.loadError"), "error");
     }
-  }, [storage, formCompany, formPosition, formStatus, formNotes, toast, t]);
+  }, [storage, formCompany, formPosition, formStatus, formNotes, formDateApplied, formFollowUpDate, toast, t]);
 
   const startEditing = useCallback((contact: EmployerContact) => {
     setEditingId(contact.id);
@@ -91,6 +97,11 @@ export default function ContactLogPage() {
     setEditDateApplied(
       contact.dateApplied
         ? new Date(contact.dateApplied).toISOString().split("T")[0]
+        : ""
+    );
+    setEditFollowUpDate(
+      contact.followUpDate
+        ? new Date(contact.followUpDate).toISOString().split("T")[0]
         : ""
     );
   }, []);
@@ -117,6 +128,9 @@ export default function ContactLogPage() {
       dateApplied: editDateApplied
         ? new Date(editDateApplied).toISOString()
         : existing.dateApplied,
+      followUpDate: editFollowUpDate
+        ? new Date(editFollowUpDate).toISOString()
+        : undefined,
       updatedAt: new Date().toISOString(),
     };
 
@@ -135,6 +149,7 @@ export default function ContactLogPage() {
     editStatus,
     editNotes,
     editDateApplied,
+    editFollowUpDate,
     contacts,
     storage,
     toast,
@@ -193,10 +208,14 @@ export default function ContactLogPage() {
           formPosition={formPosition}
           formStatus={formStatus}
           formNotes={formNotes}
+          formDateApplied={formDateApplied}
+          formFollowUpDate={formFollowUpDate}
           onCompanyChange={setFormCompany}
           onPositionChange={setFormPosition}
           onStatusChange={setFormStatus}
           onNotesChange={setFormNotes}
+          onDateAppliedChange={setFormDateApplied}
+          onFollowUpDateChange={setFormFollowUpDate}
           onSave={addContact}
           onCancel={() => setShowForm(false)}
         />
@@ -240,6 +259,8 @@ export default function ContactLogPage() {
               onEditStatusChange={setEditStatus}
               onEditNotesChange={setEditNotes}
               onEditDateChange={setEditDateApplied}
+              editFollowUpDate={editFollowUpDate}
+              onEditFollowUpDateChange={setEditFollowUpDate}
               onStartEditing={startEditing}
               onCancelEditing={cancelEditing}
               onSaveEdit={saveEdit}

@@ -3,6 +3,7 @@
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function ApplicationTipsPage() {
   const { t } = useLanguage();
@@ -47,6 +48,8 @@ export default function ApplicationTipsPage() {
           </div>
         ))}
       </div>
+
+      <NextStepLink href="/applications/experience-gap" labelKey="applications.sections.experienceGap.title" />
     </div>
   );
 }

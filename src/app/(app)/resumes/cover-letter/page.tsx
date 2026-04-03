@@ -16,6 +16,7 @@ import { nanoid } from "nanoid";
 import { usePdfExport } from "@/hooks/usePdfExport";
 import type { CoverLetter, Resume } from "@/types/resume";
 import { AICoverLetterForm } from "./components/AICoverLetterForm";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function CoverLetterPage() {
   const { t } = useLanguage();
@@ -195,6 +196,8 @@ export default function CoverLetterPage() {
           </div>
         </div>
       </div>
+
+      <NextStepLink href="/resumes/references" labelKey="resumes.sections.references.title" />
     </div>
   );
 }

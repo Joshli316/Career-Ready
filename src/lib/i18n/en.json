@@ -51,7 +51,8 @@
     "addBullet": "+ Add bullet",
     "next": "Next",
     "untitled": "Untitled",
-    "opensInNewTab": "opens in new tab"
+    "opensInNewTab": "opens in new tab",
+    "nextStep": "Next step"
   },
   "nav": {
     "home": "Home",
@@ -62,7 +63,13 @@
     "jobSearch": "Job Search",
     "socialMedia": "Social Media",
     "landingTheJob": "Landing the Job",
-    "contactLog": "Contact Log"
+    "contactLog": "Contact Log",
+    "progress": "{count} of {total} tools started",
+    "started": "Started",
+    "clearData": "Clear all data",
+    "clearDataTitle": "Clear All Data",
+    "clearDataConfirm": "This will permanently delete all your saved progress, resumes, contacts, and stories. Your language preference will be kept. This cannot be undone.",
+    "clearDataButton": "Clear Everything"
   },
   "tools": {
     "knowYourself": {
@@ -135,9 +142,9 @@
       "tools": ["Skills Inventory", "Work Values", "Focus Goals", "Power Statement"]
     },
     "phase2": {
-      "tagline": "Build your resume. Prep your answers.",
-      "desc": "Your brand statement auto-fills into your resume, cover letter, and interview prep. Practice STAR stories, search job boards, and apply with materials that actually match the posting.",
-      "tools": ["Resume Builder", "Cover Letters", "Interview Prep", "Job Search"]
+      "tagline": "Apply smart. Interview strong.",
+      "desc": "Your brand statement auto-fills into your resume and cover letter. Search job boards, clean up your social media, then prep STAR stories and practice with AI mock interviews once you get callbacks.",
+      "tools": ["Resume Builder", "Job Search", "Social Media", "Interview Prep"]
     },
     "phase3": {
       "tagline": "Track applications. Crush your first 90 days.",
@@ -206,7 +213,7 @@
       "softSkillsTitle": "Soft Skills",
       "softSkillsDesc": "People skills and personal qualities. Select all that apply. Aim for at least 5.",
       "hardSkillsTitle": "Hard Skills",
-      "hardSkillsDesc": "Specific, teachable abilities. Think about skills from coursework, certifications, projects, and jobs.",
+      "hardSkillsDesc": "Specific, teachable abilities. Browse the categories below for ideas, then add your own using the form.",
       "addSkill": "Add a Skill",
       "skillPlaceholder": "Skill name (e.g., Python, QuickBooks)",
       "sourcePlaceholder": "Where learned (optional)",
@@ -667,6 +674,12 @@
         "description": "Write and send thank you notes the same day."
       }
     },
+    "readiness": {
+      "title": "Interview Readiness",
+      "emptyPrompt": "Write a few STAR stories to see your readiness score.",
+      "getStarted": "Get started with your first story →",
+      "competencyCoverage": "Competency Coverage"
+    },
     "starMethod": {
       "title": "Storybank",
       "description": "Write and polish your behavioral interview stories. Tag skills and track which questions you can answer.",
@@ -693,7 +706,32 @@
         "q4": "Give an example of a time when you showed initiative.",
         "q5": "Tell me about a time you worked effectively under pressure.",
         "q6": "Describe a situation where you had to learn something new quickly."
-      }
+      },
+      "pickQuestion": "Pick a question to practice, or write your own:",
+      "behavioralQuestion": "Behavioral Question",
+      "behavioralQuestionPlaceholder": "e.g., Tell me about a time you led a team through a challenge.",
+      "situationPlaceholder": "What was happening? Set the scene briefly.",
+      "taskPlaceholder": "What were you responsible for?",
+      "actionPlaceholder": "What specific steps did you take?",
+      "resultPlaceholder": "What was the outcome? Use numbers if possible.",
+      "earnedSecret": "Lesson Learned",
+      "earnedSecretPlaceholder": "What did this experience teach you? How would you apply it next time?",
+      "storyStrength": "How strong is this story?",
+      "storyQuality": "{score}/5 quality",
+      "primarySkill": "Primary Skill",
+      "secondarySkill": "Secondary Skill",
+      "selectSkill": "Select a skill...",
+      "bestDeployedFor": "Best Deployed For",
+      "bestDeployedForPlaceholder": "e.g., Leadership questions, teamwork scenarios",
+      "useCount": "Times Used in Interviews",
+      "usedCount": "Used {count} {unit}",
+      "time": "time",
+      "times": "times",
+      "coveredQuestions": "Covered Questions",
+      "uncoveredQuestions": "Uncovered Questions",
+      "noCoveredQuestions": "No questions covered yet. Write stories and tag skills to start covering questions.",
+      "allQuestionsCovered": "All questions covered! Great job.",
+      "addStoryForCoverage": "Add a story tagged with this skill to cover this question."
     },
     "commonQuestions": {
       "title": "Common Interview Questions",
@@ -789,7 +827,23 @@
       "analyzing": "Analyzing...",
       "analyzeButton": "Analyze Job Posting",
       "deleteAnalysisTitle": "Delete Analysis",
-      "deleteAnalysisConfirm": "This analysis will be permanently deleted."
+      "deleteAnalysisConfirm": "This analysis will be permanently deleted.",
+      "at": "at",
+      "matched": "Matched",
+      "gaps": "Gaps",
+      "practiceQs": "Practice Qs",
+      "loadingMessage": "Analyzing the job posting...",
+      "talkingPoints": "Talking Points",
+      "suggestedStories": "Suggested stories:",
+      "mustHave": "Must Have",
+      "niceToHave": "Nice to Have",
+      "draftStory": "Draft a story for this",
+      "matchedLabel": "Matched:",
+      "checklistPolishStory": "Polish an existing story",
+      "checklistDraftNewStory": "Draft a new story",
+      "checklistResearch": "Research the company",
+      "checklistPractice": "Practice out loud",
+      "checklistProgress": "{done} of {total} done"
     },
     "mockInterview": {
       "title": "AI Mock Interview",
@@ -1123,6 +1177,7 @@
       "saveContact": "Save Contact",
       "saveChanges": "Save Changes",
       "dateApplied": "Date Applied",
+      "followUpDate": "Follow-up Date",
       "added": "Added"
     },
     "stats": {

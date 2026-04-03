@@ -23,10 +23,14 @@ interface ContactFormProps {
   formPosition: string;
   formStatus: ContactStatus;
   formNotes: string;
+  formDateApplied: string;
+  formFollowUpDate: string;
   onCompanyChange: (value: string) => void;
   onPositionChange: (value: string) => void;
   onStatusChange: (value: ContactStatus) => void;
   onNotesChange: (value: string) => void;
+  onDateAppliedChange: (value: string) => void;
+  onFollowUpDateChange: (value: string) => void;
   onSave: () => void;
   onCancel: () => void;
 }
@@ -36,10 +40,14 @@ export function ContactForm({
   formPosition,
   formStatus,
   formNotes,
+  formDateApplied,
+  formFollowUpDate,
   onCompanyChange,
   onPositionChange,
   onStatusChange,
   onNotesChange,
+  onDateAppliedChange,
+  onFollowUpDateChange,
   onSave,
   onCancel,
 }: ContactFormProps) {
@@ -56,6 +64,31 @@ export function ContactForm({
             <option key={key} value={key}>{t(tKey)}</option>
           ))}
         </Select>
+        <div className="space-y-1.5">
+          <label htmlFor="new-date-applied" className="block text-sm font-medium text-neutral-700">
+            {t("contactLog.form.dateApplied")}
+          </label>
+          <input
+            id="new-date-applied"
+            type="date"
+            value={formDateApplied}
+            max={new Date().toISOString().split("T")[0]}
+            onChange={(e) => onDateAppliedChange(e.target.value)}
+            className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label htmlFor="new-follow-up" className="block text-sm font-medium text-neutral-700">
+            {t("contactLog.form.followUpDate")}
+          </label>
+          <input
+            id="new-follow-up"
+            type="date"
+            value={formFollowUpDate}
+            onChange={(e) => onFollowUpDateChange(e.target.value)}
+            className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+          />
+        </div>
       </div>
       <div className="mt-4">
         <Textarea label={t("contactLog.form.notesLabel")} placeholder={t("contactLog.form.notesPlaceholder")} value={formNotes} onChange={(e) => onNotesChange(e.target.value)} rows={2} />

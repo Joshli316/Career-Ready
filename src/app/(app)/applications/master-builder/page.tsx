@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { Plus, Trash2 } from "lucide-react";
 import type { MasterApp, MasterAppWorkEntry } from "@/types/profile";
 
@@ -155,6 +156,8 @@ export default function MasterBuilderPage() {
           <Button onClick={handleSave} size="lg">{t("applications.masterBuilder.saveMasterApp")}</Button>
         </div>
       </div>
+
+      <NextStepLink href="/resumes" labelKey="tools.resumes.name" />
     </div>
   );
 }

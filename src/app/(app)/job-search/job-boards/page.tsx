@@ -2,6 +2,7 @@
 
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const boardKeys = ["linkedin", "indeed", "glassdoor", "handshake", "googleJobs", "usajobs", "wellfound", "ziprecruiter"] as const;
@@ -53,6 +54,8 @@ export default function JobBoardsPage() {
           </a>
         ))}
       </div>
+
+      <NextStepLink href="/job-search/checklist" labelKey="jobSearch.sections.checklist.title" />
     </div>
   );
 }

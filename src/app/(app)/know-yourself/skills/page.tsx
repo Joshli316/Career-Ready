@@ -11,6 +11,7 @@ import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Plus, X } from "lucide-react";
 import { ToggleButton } from "@/components/ui/ToggleButton";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 
 const SOFT_SKILLS = [
@@ -241,6 +242,8 @@ export default function SkillsPage() {
           </div>
         </div>
       </div>
+
+      <NextStepLink href="/know-yourself/work-values" labelKey="knowYourself.workValues.title" />
     </div>
   );
 }

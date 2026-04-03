@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Sparkles } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function BrandingPage() {
   const { saved, save, storage } = useProfileSave();
@@ -98,6 +99,8 @@ export default function BrandingPage() {
       <div className="flex justify-end">
         <Button onClick={handleSave} size="lg">{t("knowYourself.branding.saveBrand")}</Button>
       </div>
+
+      <NextStepLink href="/know-yourself/power-statement" labelKey="knowYourself.powerStatement.title" />
     </div>
   );
 }

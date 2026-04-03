@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Target } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 interface FocusGoal {
   goal: string;
@@ -228,6 +229,8 @@ export default function FocusGoalsPage() {
           {t("knowYourself.focusGoals.saveGoal")}
         </Button>
       </div>
+
+      <NextStepLink href="/applications" labelKey="tools.applications.name" />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Plus, X } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 
 export default function BeliefsPage() {
@@ -153,6 +154,8 @@ export default function BeliefsPage() {
           {t("knowYourself.beliefs.saveBeliefs")}
         </Button>
       </div>
+
+      <NextStepLink href="/know-yourself/focus-goals" labelKey="knowYourself.focusGoals.title" />
     </div>
   );
 }

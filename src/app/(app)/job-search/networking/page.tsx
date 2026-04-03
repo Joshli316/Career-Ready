@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/Input";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { Plus } from "lucide-react";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
@@ -71,6 +72,8 @@ export default function NetworkingPage() {
         <SavedIndicator visible={saved} />
         <Button onClick={handleSave} size="lg">{t("jobSearch.networking.saveContacts")}</Button>
       </div>
+
+      <NextStepLink href="/job-search/job-boards" labelKey="jobSearch.sections.jobBoards.title" />
     </div>
   );
 }

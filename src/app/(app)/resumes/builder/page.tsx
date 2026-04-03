@@ -15,6 +15,7 @@ import { ContactInfoSection } from "./components/ContactInfoSection";
 import { ExperienceSection } from "./components/ExperienceSection";
 import { ResumePreview } from "./components/ResumePreview";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { TabStrip } from "@/components/ui/TabStrip";
 import { Plus, Trash2, Eye, EyeOff, Download, Wand2 } from "lucide-react";
@@ -322,6 +323,8 @@ export default function ResumeBuilderPage() {
           <ResumePreview resume={resume} />
         </div>
       </div>
+
+      <NextStepLink href="/resumes/cover-letter" labelKey="resumes.sections.coverLetter.title" />
     </div>
   );
 }

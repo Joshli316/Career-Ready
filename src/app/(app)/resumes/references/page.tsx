@@ -10,6 +10,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Plus, Trash2 } from "lucide-react";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import type { ReferencesEntry } from "@/types/profile";
 
 const emptyRef = (): ReferencesEntry => ({
@@ -108,6 +109,8 @@ export default function ReferencesPage() {
         </button>
         <Button onClick={handleSave} size="lg">{t("resumes.references.saveReferences")}</Button>
       </div>
+
+      <NextStepLink href="/resumes/email-guide" labelKey="resumes.sections.emailGuide.title" />
     </div>
   );
 }

@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   authors: [{ name: "CareerReady" }],
   creator: "CareerReady",
   other: {
-    "apple-mobile-web-app-capable": "yes",
+    "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
   },
 };

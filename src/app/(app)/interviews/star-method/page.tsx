@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { TabStrip } from "@/components/ui/TabStrip";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { CheckCircle, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { StarStory } from "@/types/interview";
@@ -220,6 +221,8 @@ export default function StarMethodPage() {
           );
         })()}
       </div>
+
+      <NextStepLink href="/interviews/common-questions" labelKey="interviews.sections.commonQuestions.title" />
 
       <ConfirmDialog
         open={deleteIndex !== null}

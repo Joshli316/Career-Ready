@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Mic } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function PowerStatementPage() {
   const { saved, save, storage } = useProfileSave();
@@ -87,6 +88,8 @@ export default function PowerStatementPage() {
       <div className="flex justify-end">
         <Button onClick={handleSave} size="lg">{t("knowYourself.powerStatement.savePowerStatement")}</Button>
       </div>
+
+      <NextStepLink href="/know-yourself/beliefs" labelKey="knowYourself.beliefs.title" />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import type { InterviewResponse, InterviewPrep } from "@/types/interview";
 import en from "@/lib/i18n/en.json";
@@ -161,6 +162,8 @@ export default function CommonQuestionsPage() {
       <div className="mt-6 flex justify-end">
         <Button onClick={save} size="lg">{t("interviews.commonQuestions.saveResponses")}</Button>
       </div>
+
+      <NextStepLink href="/interviews/company-research" labelKey="interviews.sections.companyResearch.title" />
     </div>
   );
 }

@@ -80,11 +80,11 @@ function HomePage() {
     { name: t("tools.knowYourself.name"), color: "bg-green-200" },
     { name: t("tools.applications.name"), color: "bg-blue-100" },
     { name: t("tools.resumes.name"), color: "bg-blue-200" },
+    { name: t("tools.jobSearch.name"), color: "bg-blue-100" },
+    { name: t("tools.socialMedia.name"), color: "bg-blue-200" },
     { name: t("tools.interviews.name"), color: "bg-blue-100" },
-    { name: t("tools.jobSearch.name"), color: "bg-blue-200" },
-    { name: t("tools.socialMedia.name"), color: "bg-blue-100" },
-    { name: t("tools.landingTheJob.name"), color: "bg-purple-100" },
-    { name: t("tools.contactLog.name"), color: "bg-purple-200" },
+    { name: t("tools.contactLog.name"), color: "bg-purple-100" },
+    { name: t("tools.landingTheJob.name"), color: "bg-purple-200" },
   ];
 
   return (

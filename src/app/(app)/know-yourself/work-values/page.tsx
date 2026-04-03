@@ -7,6 +7,7 @@ import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 const VALUE_KEYS: { value: string; nameKey: string; descKey: string }[] = [
   { value: "Achievement", nameKey: "knowYourself.workValues.values.achievement", descKey: "knowYourself.workValues.values.achievementDesc" },
@@ -108,6 +109,8 @@ export default function WorkValuesPage() {
       <div className="mt-6 flex justify-end">
         <Button onClick={handleSave} size="lg">{t("knowYourself.workValues.saveRankings")}</Button>
       </div>
+
+      <NextStepLink href="/know-yourself/branding" labelKey="knowYourself.branding.title" />
     </div>
   );
 }
