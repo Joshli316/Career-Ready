@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { ListChecks, Lightbulb, ClipboardList } from "lucide-react";
+import { ListChecks, Lightbulb, ClipboardList, ArrowRight } from "lucide-react";
 
 export default function ApplicationsPage() {
   const { t } = useLanguage();
 
-  const sections = [
+  const supportingSections = [
     {
       title: t("applications.sections.tips.title"),
       description: t("applications.sections.tips.description"),
@@ -20,12 +20,6 @@ export default function ApplicationsPage() {
       href: "/applications/experience-gap",
       icon: Lightbulb,
     },
-    {
-      title: t("applications.sections.masterBuilder.title"),
-      description: t("applications.sections.masterBuilder.description"),
-      href: "/applications/master-builder",
-      icon: ClipboardList,
-    },
   ];
 
   return (
@@ -36,8 +30,30 @@ export default function ApplicationsPage() {
           {t("applications.description")}
         </p>
       </div>
+
+      {/* Featured: Master Application Builder */}
+      <Link
+        href="/applications/master-builder"
+        className="group mb-6 flex items-center gap-5 rounded-xl border-2 border-primary-300 bg-primary-50/50 p-6 shadow-sm transition-[shadow,border-color,background-color] hover:shadow-md hover:bg-primary-50"
+      >
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-500 group-hover:bg-primary-200">
+          <ClipboardList className="h-6 w-6" />
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold text-neutral-800">{t("applications.sections.masterBuilder.title")}</h2>
+            <span className="rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-600">{t("common.startHere") || "Start here"}</span>
+          </div>
+          <p className="mt-1 text-sm text-neutral-600">
+            {t("applications.sections.masterBuilder.description")}
+          </p>
+        </div>
+        <ArrowRight className="h-5 w-5 shrink-0 text-primary-400 transition-transform group-hover:translate-x-1" />
+      </Link>
+
+      {/* Supporting tools */}
       <div className="grid gap-4 sm:grid-cols-2">
-        {sections.map((section) => (
+        {supportingSections.map((section) => (
           <Link
             key={section.href}
             href={section.href}
