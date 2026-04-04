@@ -1,12 +1,91 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { NextStepLink } from "@/components/ui/NextStepLink";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { useToast } from "@/components/ui/Toast";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import { Download, Save } from "lucide-react";
+
+const STORAGE_KEY = "careerready-email-draft";
+
+interface EmailDraft {
+  to: string;
+  subject: string;
+  body: string;
+}
 
 export default function EmailGuidePage() {
   const { t } = useLanguage();
+  const { toast } = useToast();
+  const [draft, setDraft] = useState<EmailDraft>({ to: "", subject: "", body: "" });
+  const [saved, setSaved] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setDraft(JSON.parse(raw));
+    } catch { /* ignore */ }
+  }, []);
+
+  function updateDraft(field: keyof EmailDraft, value: string) {
+    setDraft((prev) => ({ ...prev, [field]: value }));
+    setSaved(false);
+  }
+
+  function saveDraft() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+    setSaved(true);
+    toast(t("resumes.emailGuide.draftSaved"), "success");
+  }
+
+  const exportPdf = useCallback(async () => {
+    setExporting(true);
+    try {
+      const { pdf, Document, Page, Text, View, StyleSheet } = await import("@react-pdf/renderer");
+      const { createElement: h } = await import("react");
+
+      const styles = StyleSheet.create({
+        page: { padding: 50, fontFamily: "Helvetica", fontSize: 11, lineHeight: 1.5 },
+        header: { marginBottom: 4, fontSize: 10, color: "#555" },
+        subject: { marginBottom: 16, fontSize: 12, fontFamily: "Helvetica-Bold" },
+        body: { whiteSpace: "pre-wrap" as never },
+      });
+
+      const doc = h(Document, null,
+        h(Page, { size: "LETTER", style: styles.page },
+          h(View, null,
+            h(Text, { style: styles.header }, `To: ${draft.to}`),
+            h(Text, { style: styles.subject }, `Subject: ${draft.subject}`),
+            h(Text, { style: styles.body }, draft.body),
+          )
+        )
+      );
+
+      const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Email Draft.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } catch (err) {
+      console.error("PDF export failed:", err);
+      toast(t("common.pdfExportFailed"), "error");
+    } finally {
+      setExporting(false);
+    }
+  }, [draft, toast, t]);
+
+  const hasDraftContent = draft.to.trim() || draft.subject.trim() || draft.body.trim();
 
   return (
     <div>
@@ -109,6 +188,51 @@ export default function EmailGuidePage() {
             <p>{t("resumes.emailGuide.sampleName")}</p>
             <p>{t("resumes.emailGuide.samplePhone")}</p>
             <p>{t("resumes.emailGuide.sampleEmail2")}</p>
+          </div>
+        </section>
+
+        {/* Draft your email */}
+        <section className="rounded-xl border-2 border-primary-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-1 text-lg font-semibold text-neutral-800">{t("resumes.emailGuide.draftTitle")}</h2>
+          <p className="mb-4 text-sm text-neutral-500">{t("resumes.emailGuide.draftDescription")}</p>
+
+          <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                label={t("resumes.emailGuide.toLabel")}
+                placeholder={t("resumes.emailGuide.toPlaceholder")}
+                value={draft.to}
+                onChange={(e) => updateDraft("to", e.target.value)}
+              />
+              <Input
+                label={t("resumes.emailGuide.subjectLine")}
+                placeholder={t("resumes.emailGuide.subjectPlaceholder")}
+                value={draft.subject}
+                onChange={(e) => updateDraft("subject", e.target.value)}
+              />
+            </div>
+            <Textarea
+              label={t("resumes.emailGuide.bodyLabel")}
+              placeholder={t("resumes.emailGuide.bodyPlaceholder")}
+              value={draft.body}
+              onChange={(e) => updateDraft("body", e.target.value)}
+              rows={10}
+            />
+            <div className="flex items-center justify-end gap-3">
+              <SavedIndicator visible={saved} />
+              <Button
+                variant="secondary"
+                onClick={exportPdf}
+                disabled={!hasDraftContent || exporting}
+              >
+                <Download className="mr-1.5 h-4 w-4" />
+                {t("resumes.emailGuide.exportPdf")}
+              </Button>
+              <Button onClick={saveDraft} disabled={!hasDraftContent}>
+                <Save className="mr-1.5 h-4 w-4" />
+                {t("resumes.emailGuide.saveDraft")}
+              </Button>
+            </div>
           </div>
         </section>
       </div>

@@ -17,8 +17,8 @@ const nextConfig: NextConfig = {
             value: [
               "default-src 'self'",
               // 'unsafe-inline' is required by Next.js for inline scripts it injects at build time.
-              // 'unsafe-eval' has been removed to prevent XSS via eval/Function().
-              "script-src 'self' 'unsafe-inline'",
+              // 'wasm-unsafe-eval' is required by @react-pdf/renderer (yoga-layout WASM).
+              "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob:",
               "font-src 'self' data:",

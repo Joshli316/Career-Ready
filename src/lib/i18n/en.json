@@ -650,7 +650,17 @@
       "sampleClosing": "Thank you for your time. I look forward to hearing from you.",
       "sampleName": "Jane Smith",
       "samplePhone": "555-555-5555",
-      "sampleEmail2": "janesmith@email.com"
+      "sampleEmail2": "janesmith@email.com",
+      "draftTitle": "Draft Your Email",
+      "draftDescription": "Use the sample above as a guide. Write your own email below, then save or export it.",
+      "toLabel": "To",
+      "toPlaceholder": "hiring@company.com",
+      "subjectPlaceholder": "e.g., Marketing Coordinator Position - Your Name",
+      "bodyLabel": "Message",
+      "bodyPlaceholder": "Write your email here...",
+      "saveDraft": "Save Draft",
+      "exportPdf": "Export PDF",
+      "draftSaved": "Email draft saved"
     },
     "error": {
       "title": "Resume tool error",

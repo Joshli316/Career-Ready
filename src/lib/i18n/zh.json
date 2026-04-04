@@ -650,7 +650,17 @@
       "sampleClosing": "感谢您的时间。期待您的回复。",
       "sampleName": "张明",
       "samplePhone": "555-555-5555",
-      "sampleEmail2": "zhangming@email.com"
+      "sampleEmail2": "zhangming@email.com",
+      "draftTitle": "撰写你的邮件",
+      "draftDescription": "参考上面的示例，在下方撰写你自己的邮件，然后保存或导出。",
+      "toLabel": "收件人",
+      "toPlaceholder": "hiring@company.com",
+      "subjectPlaceholder": "例如：市场协调员职位 - 你的姓名",
+      "bodyLabel": "正文",
+      "bodyPlaceholder": "在这里撰写你的邮件……",
+      "saveDraft": "保存草稿",
+      "exportPdf": "导出 PDF",
+      "draftSaved": "邮件草稿已保存"
     },
     "error": {
       "title": "简历工具错误",
