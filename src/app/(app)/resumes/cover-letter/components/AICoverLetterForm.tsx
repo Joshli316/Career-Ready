@@ -50,37 +50,24 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
 
   const canGenerate = jobDescription.trim().length > 0 && resumeText.trim().length > 0;
 
-  async function handleJdUpload(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileUpload(
+    e: React.ChangeEvent<HTMLInputElement>,
+    onSuccess: (text: string, fileName: string) => void,
+    setLoading: (v: boolean) => void,
+    inputRef: React.RefObject<HTMLInputElement | null>,
+  ) {
     const file = e.target.files?.[0];
     if (!file) return;
-    setLoadingJd(true);
+    setLoading(true);
     try {
       const text = await extractTextFromFile(file);
-      setJobDescription(text);
+      onSuccess(text, file.name);
       toast(t("resumes.aiCoverLetter.fileLoaded").replace("{name}", file.name), "success");
     } catch {
       toast(t("resumes.aiCoverLetter.fileError"), "error");
     } finally {
-      setLoadingJd(false);
-      if (jdFileRef.current) jdFileRef.current.value = "";
-    }
-  }
-
-  async function handleResumeUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setLoadingResume(true);
-    try {
-      const text = await extractTextFromFile(file);
-      setUploadedResumeText(text);
-      setUploadedResumeFileName(file.name);
-      setResumeSource("uploaded");
-      toast(t("resumes.aiCoverLetter.fileLoaded").replace("{name}", file.name), "success");
-    } catch {
-      toast(t("resumes.aiCoverLetter.fileError"), "error");
-    } finally {
-      setLoadingResume(false);
-      if (resumeFileRef.current) resumeFileRef.current.value = "";
+      setLoading(false);
+      if (inputRef.current) inputRef.current.value = "";
     }
   }
 
@@ -187,7 +174,7 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
                 ref={jdFileRef}
                 type="file"
                 accept=".pdf,.txt,.text"
-                onChange={handleJdUpload}
+                onChange={(e) => handleFileUpload(e, (text) => setJobDescription(text), setLoadingJd, jdFileRef)}
                 className="hidden"
                 aria-label={t("resumes.aiCoverLetter.uploadJd")}
               />
@@ -220,7 +207,7 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
                 ref={resumeFileRef}
                 type="file"
                 accept=".pdf,.txt,.text"
-                onChange={handleResumeUpload}
+                onChange={(e) => handleFileUpload(e, (text, name) => { setUploadedResumeText(text); setUploadedResumeFileName(name); setResumeSource("uploaded"); }, setLoadingResume, resumeFileRef)}
                 className="hidden"
                 aria-label={t("resumes.aiCoverLetter.uploadResume")}
               />

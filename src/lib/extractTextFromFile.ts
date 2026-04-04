@@ -1,7 +1,12 @@
+let pdfjsLoaded = false;
+
 export async function extractTextFromFile(file: File): Promise<string> {
   if (file.name.endsWith(".pdf")) {
     const pdfjsLib = await import("pdfjs-dist");
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+    if (!pdfjsLoaded) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+      pdfjsLoaded = true;
+    }
 
     const buffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;

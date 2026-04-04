@@ -61,7 +61,11 @@ export default function KnowYourselfPage() {
           <Link
             key={section.href}
             href={section.href}
-            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-4 sm:p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+            className={`group flex gap-4 rounded-xl border p-4 sm:p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
+              section.recommended
+                ? "border-primary-300 bg-primary-50/40 hover:border-primary-400"
+                : "border-neutral-150 bg-white hover:border-primary-300"
+            }`}
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-400 group-hover:bg-primary-100">
               <section.icon className="h-5 w-5" />
