@@ -119,7 +119,7 @@ export default function AuditPage() {
         <Button onClick={handleSave} size="lg">{t("socialMedia.audit.saveAudit")}</Button>
       </div>
 
-      <NextStepLink href="/interviews" labelKey="tools.interviews.name" />
+      <NextStepLink href="/interviews" labelKey="tools.interviews.name" prevHref="/job-search/checklist" prevLabelKey="jobSearch.sections.checklist.title" />
     </div>
   );
 }

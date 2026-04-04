@@ -85,7 +85,7 @@ export default function ExperienceGapPage() {
         </div>
       )}
 
-      <NextStepLink href="/applications/master-builder" labelKey="applications.sections.masterBuilder.title" />
+      <NextStepLink href="/applications/master-builder" labelKey="applications.sections.masterBuilder.title" prevHref="/applications/tips" prevLabelKey="applications.sections.tips.title" />
     </div>
   );
 }

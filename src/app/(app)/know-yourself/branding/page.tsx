@@ -100,7 +100,7 @@ export default function BrandingPage() {
         <Button onClick={handleSave} size="lg">{t("knowYourself.branding.saveBrand")}</Button>
       </div>
 
-      <NextStepLink href="/know-yourself/power-statement" labelKey="knowYourself.powerStatement.title" />
+      <NextStepLink href="/know-yourself/power-statement" labelKey="knowYourself.powerStatement.title" prevHref="/know-yourself/work-values" prevLabelKey="knowYourself.workValues.title" />
     </div>
   );
 }

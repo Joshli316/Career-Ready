@@ -53,6 +53,7 @@
     "untitled": "未命名",
     "opensInNewTab": "在新标签页中打开",
     "nextStep": "下一步",
+    "previousStep": "上一步",
     "savedSuccessfully": "保存成功",
     "saveFailed": "保存失败，请重试。",
     "pdfExportFailed": "PDF导出失败，请重试。"

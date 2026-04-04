@@ -157,7 +157,7 @@ export default function MasterBuilderPage() {
         </div>
       </div>
 
-      <NextStepLink href="/resumes" labelKey="tools.resumes.name" />
+      <NextStepLink href="/resumes" labelKey="tools.resumes.name" prevHref="/applications/experience-gap" prevLabelKey="applications.sections.experienceGap.title" />
     </div>
   );
 }

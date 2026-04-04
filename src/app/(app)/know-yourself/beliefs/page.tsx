@@ -155,7 +155,7 @@ export default function BeliefsPage() {
         </Button>
       </div>
 
-      <NextStepLink href="/know-yourself/focus-goals" labelKey="knowYourself.focusGoals.title" />
+      <NextStepLink href="/know-yourself/focus-goals" labelKey="knowYourself.focusGoals.title" prevHref="/know-yourself/power-statement" prevLabelKey="knowYourself.powerStatement.title" />
     </div>
   );
 }

@@ -121,7 +121,7 @@ export default function CompanyResearchPage() {
         <Button onClick={save} size="lg">{t("interviews.companyResearch.saveResearch")}</Button>
       </div>
 
-      <NextStepLink href="/interviews/thank-you" labelKey="interviews.sections.thankYou.title" />
+      <NextStepLink href="/interviews/thank-you" labelKey="interviews.sections.thankYou.title" prevHref="/interviews/common-questions" prevLabelKey="interviews.sections.commonQuestions.title" />
     </div>
   );
 }

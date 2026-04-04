@@ -47,7 +47,7 @@ export default function WorkplaceSuccessPage() {
         })}
       </div>
 
-      <NextStepLink href="/landing-the-job/self-evaluation" labelKey="landingTheJob.sections.selfEvaluation.title" />
+      <NextStepLink href="/landing-the-job/self-evaluation" labelKey="landingTheJob.sections.selfEvaluation.title" prevHref="/interviews/thank-you" prevLabelKey="interviews.sections.thankYou.title" />
     </div>
   );
 }

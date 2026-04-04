@@ -110,7 +110,7 @@ export default function WorkValuesPage() {
         <Button onClick={handleSave} size="lg">{t("knowYourself.workValues.saveRankings")}</Button>
       </div>
 
-      <NextStepLink href="/know-yourself/branding" labelKey="knowYourself.branding.title" />
+      <NextStepLink href="/know-yourself/branding" labelKey="knowYourself.branding.title" prevHref="/know-yourself/skills" prevLabelKey="knowYourself.skills.title" />
     </div>
   );
 }

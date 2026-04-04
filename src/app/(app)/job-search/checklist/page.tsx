@@ -98,7 +98,7 @@ export default function ChecklistPage() {
         <Button onClick={handleSave} size="lg">{t("jobSearch.checklist.saveProgress")}</Button>
       </div>
 
-      <NextStepLink href="/social-media" labelKey="tools.socialMedia.name" />
+      <NextStepLink href="/social-media" labelKey="tools.socialMedia.name" prevHref="/job-search/job-boards" prevLabelKey="jobSearch.sections.jobBoards.title" />
     </div>
   );
 }

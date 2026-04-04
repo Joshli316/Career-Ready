@@ -163,7 +163,7 @@ export default function CommonQuestionsPage() {
         <Button onClick={save} size="lg">{t("interviews.commonQuestions.saveResponses")}</Button>
       </div>
 
-      <NextStepLink href="/interviews/company-research" labelKey="interviews.sections.companyResearch.title" />
+      <NextStepLink href="/interviews/company-research" labelKey="interviews.sections.companyResearch.title" prevHref="/interviews/star-method" prevLabelKey="interviews.sections.starMethod.title" />
     </div>
   );
 }

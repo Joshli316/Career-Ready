@@ -107,6 +107,7 @@ export default function SelfEvaluationPage() {
         )}
       </div>
 
+      <NextStepLink prevHref="/landing-the-job/workplace-success" prevLabelKey="landingTheJob.sections.workplaceSuccess.title" />
     </div>
   );
 }

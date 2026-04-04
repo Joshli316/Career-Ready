@@ -324,7 +324,7 @@ export default function ResumeBuilderPage() {
         </div>
       </div>
 
-      <NextStepLink href="/resumes/cover-letter" labelKey="resumes.sections.coverLetter.title" />
+      <NextStepLink href="/resumes/cover-letter" labelKey="resumes.sections.coverLetter.title" prevHref="/applications/master-builder" prevLabelKey="applications.sections.masterBuilder.title" />
     </div>
   );
 }

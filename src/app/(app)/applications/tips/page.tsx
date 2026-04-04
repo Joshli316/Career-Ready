@@ -49,7 +49,7 @@ export default function ApplicationTipsPage() {
         ))}
       </div>
 
-      <NextStepLink href="/applications/experience-gap" labelKey="applications.sections.experienceGap.title" />
+      <NextStepLink href="/applications/experience-gap" labelKey="applications.sections.experienceGap.title" prevHref="/know-yourself/focus-goals" prevLabelKey="knowYourself.focusGoals.title" />
     </div>
   );
 }

@@ -110,7 +110,7 @@ export default function ReferencesPage() {
         <Button onClick={handleSave} size="lg">{t("resumes.references.saveReferences")}</Button>
       </div>
 
-      <NextStepLink href="/resumes/email-guide" labelKey="resumes.sections.emailGuide.title" />
+      <NextStepLink href="/resumes/email-guide" labelKey="resumes.sections.emailGuide.title" prevHref="/resumes/cover-letter" prevLabelKey="resumes.sections.coverLetter.title" />
     </div>
   );
 }

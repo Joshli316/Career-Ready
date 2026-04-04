@@ -224,7 +224,7 @@ export default function StarMethodPage() {
         })()}
       </div>
 
-      <NextStepLink href="/interviews/common-questions" labelKey="interviews.sections.commonQuestions.title" />
+      <NextStepLink href="/interviews/common-questions" labelKey="interviews.sections.commonQuestions.title" prevHref="/social-media/audit" prevLabelKey="socialMedia.sections.audit.title" />
 
       <ConfirmDialog
         open={deleteIndex !== null}

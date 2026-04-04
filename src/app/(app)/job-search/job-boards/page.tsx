@@ -55,7 +55,7 @@ export default function JobBoardsPage() {
         ))}
       </div>
 
-      <NextStepLink href="/job-search/checklist" labelKey="jobSearch.sections.checklist.title" />
+      <NextStepLink href="/job-search/checklist" labelKey="jobSearch.sections.checklist.title" prevHref="/job-search/networking" prevLabelKey="jobSearch.sections.networking.title" />
     </div>
   );
 }

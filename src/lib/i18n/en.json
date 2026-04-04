@@ -53,6 +53,7 @@
     "untitled": "Untitled",
     "opensInNewTab": "opens in new tab",
     "nextStep": "Next step",
+    "previousStep": "Previous step",
     "savedSuccessfully": "Saved successfully",
     "saveFailed": "Failed to save. Please try again.",
     "pdfExportFailed": "PDF export failed. Please try again."

@@ -115,7 +115,7 @@ ${senderEmail || t("common.yourEmail")}`;
         </div>
       </div>
 
-      <NextStepLink href="/contact-log" labelKey="tools.contactLog.name" />
+      <NextStepLink href="/contact-log" labelKey="tools.contactLog.name" prevHref="/interviews/company-research" prevLabelKey="interviews.sections.companyResearch.title" />
     </div>
   );
 }

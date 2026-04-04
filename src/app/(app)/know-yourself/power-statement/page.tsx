@@ -89,7 +89,7 @@ export default function PowerStatementPage() {
         <Button onClick={handleSave} size="lg">{t("knowYourself.powerStatement.savePowerStatement")}</Button>
       </div>
 
-      <NextStepLink href="/know-yourself/beliefs" labelKey="knowYourself.beliefs.title" />
+      <NextStepLink href="/know-yourself/beliefs" labelKey="knowYourself.beliefs.title" prevHref="/know-yourself/branding" prevLabelKey="knowYourself.branding.title" />
     </div>
   );
 }

@@ -73,7 +73,7 @@ export default function NetworkingPage() {
         <Button onClick={handleSave} size="lg">{t("jobSearch.networking.saveContacts")}</Button>
       </div>
 
-      <NextStepLink href="/job-search/job-boards" labelKey="jobSearch.sections.jobBoards.title" />
+      <NextStepLink href="/job-search/job-boards" labelKey="jobSearch.sections.jobBoards.title" prevHref="/resumes/email-guide" prevLabelKey="resumes.sections.emailGuide.title" />
     </div>
   );
 }

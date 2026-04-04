@@ -230,7 +230,7 @@ export default function FocusGoalsPage() {
         </Button>
       </div>
 
-      <NextStepLink href="/applications" labelKey="tools.applications.name" />
+      <NextStepLink href="/applications" labelKey="tools.applications.name" prevHref="/know-yourself/beliefs" prevLabelKey="knowYourself.beliefs.title" />
     </div>
   );
 }

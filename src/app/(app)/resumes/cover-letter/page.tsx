@@ -197,7 +197,7 @@ export default function CoverLetterPage() {
         </div>
       </div>
 
-      <NextStepLink href="/resumes/references" labelKey="resumes.sections.references.title" />
+      <NextStepLink href="/resumes/references" labelKey="resumes.sections.references.title" prevHref="/resumes/builder" prevLabelKey="resumes.sections.builder.title" />
     </div>
   );
 }

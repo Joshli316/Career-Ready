@@ -113,7 +113,7 @@ export default function EmailGuidePage() {
         </section>
       </div>
 
-      <NextStepLink href="/job-search" labelKey="tools.jobSearch.name" />
+      <NextStepLink href="/job-search" labelKey="tools.jobSearch.name" prevHref="/resumes/references" prevLabelKey="resumes.sections.references.title" />
     </div>
   );
 }
