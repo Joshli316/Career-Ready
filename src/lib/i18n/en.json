@@ -600,7 +600,14 @@
       "successMessage": "Cover letter generated! Edit it below to make it yours.",
       "aiUsesLeft": "{remaining} AI uses left today",
       "failedGeneric": "Cover letter generation failed. Please try again.",
-      "failedDefault": "Generation failed. Try again."
+      "failedDefault": "Generation failed. Try again.",
+      "uploadFile": "Upload file",
+      "uploading": "Reading file...",
+      "uploadJd": "Upload job description file",
+      "uploadResume": "Upload resume file",
+      "uploadedFile": "Uploaded file",
+      "fileLoaded": "Loaded {name}",
+      "fileError": "Could not read file. Try a PDF or text file."
     },
     "references": {
       "title": "Reference Page",

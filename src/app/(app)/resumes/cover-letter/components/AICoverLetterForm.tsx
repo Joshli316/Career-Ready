@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useToast } from "@/components/ui/Toast";
-import { Sparkles, ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { Sparkles, ChevronDown, ChevronUp, FileText, Upload } from "lucide-react";
 import type { Resume } from "@/types/resume";
 import { resumeToText } from "./resumeToText";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { extractTextFromFile } from "@/lib/extractTextFromFile";
 
 interface GeneratedResult {
   recipientName: string;
@@ -31,15 +32,57 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
   const [company, setCompany] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-  const [resumeSource, setResumeSource] = useState<"saved" | "pasted">(savedResume ? "saved" : "pasted");
+  const [resumeSource, setResumeSource] = useState<"saved" | "pasted" | "uploaded">(savedResume ? "saved" : "pasted");
   const [pastedResume, setPastedResume] = useState("");
+  const [uploadedResumeText, setUploadedResumeText] = useState("");
+  const [uploadedResumeFileName, setUploadedResumeFileName] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [loadingJd, setLoadingJd] = useState(false);
+  const [loadingResume, setLoadingResume] = useState(false);
+  const jdFileRef = useRef<HTMLInputElement>(null);
+  const resumeFileRef = useRef<HTMLInputElement>(null);
 
   const resumeText = resumeSource === "saved" && savedResume
     ? resumeToText(savedResume)
-    : pastedResume;
+    : resumeSource === "uploaded"
+      ? uploadedResumeText
+      : pastedResume;
 
   const canGenerate = jobDescription.trim().length > 0 && resumeText.trim().length > 0;
+
+  async function handleJdUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLoadingJd(true);
+    try {
+      const text = await extractTextFromFile(file);
+      setJobDescription(text);
+      toast(t("resumes.aiCoverLetter.fileLoaded").replace("{name}", file.name), "success");
+    } catch {
+      toast(t("resumes.aiCoverLetter.fileError"), "error");
+    } finally {
+      setLoadingJd(false);
+      if (jdFileRef.current) jdFileRef.current.value = "";
+    }
+  }
+
+  async function handleResumeUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLoadingResume(true);
+    try {
+      const text = await extractTextFromFile(file);
+      setUploadedResumeText(text);
+      setUploadedResumeFileName(file.name);
+      setResumeSource("uploaded");
+      toast(t("resumes.aiCoverLetter.fileLoaded").replace("{name}", file.name), "success");
+    } catch {
+      toast(t("resumes.aiCoverLetter.fileError"), "error");
+    } finally {
+      setLoadingResume(false);
+      if (resumeFileRef.current) resumeFileRef.current.value = "";
+    }
+  }
 
   async function generate() {
     if (!canGenerate) return;
@@ -125,22 +168,66 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
             />
           </div>
 
-          <Textarea
-            label={t("resumes.aiCoverLetter.jdLabel")}
-            placeholder={t("resumes.aiCoverLetter.jdPlaceholder")}
-            value={jobDescription}
-            onChange={(e) => setJobDescription(e.target.value)}
-            rows={6}
-            className="bg-white"
-          />
-
+          {/* Job Description with upload */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-neutral-700">
-              {t("resumes.aiCoverLetter.yourResume")}
-            </label>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="text-sm font-medium text-neutral-700">
+                {t("resumes.aiCoverLetter.jdLabel")}
+              </label>
+              <button
+                type="button"
+                onClick={() => jdFileRef.current?.click()}
+                disabled={loadingJd}
+                className="flex items-center gap-1 text-xs font-medium text-ai-accent hover:text-purple-700 transition-colors disabled:opacity-50"
+              >
+                <Upload className="h-3.5 w-3.5" />
+                {loadingJd ? t("resumes.aiCoverLetter.uploading") : t("resumes.aiCoverLetter.uploadFile")}
+              </button>
+              <input
+                ref={jdFileRef}
+                type="file"
+                accept=".pdf,.txt,.text"
+                onChange={handleJdUpload}
+                className="hidden"
+                aria-label={t("resumes.aiCoverLetter.uploadJd")}
+              />
+            </div>
+            <Textarea
+              placeholder={t("resumes.aiCoverLetter.jdPlaceholder")}
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              rows={6}
+              className="bg-white"
+            />
+          </div>
 
-            {savedResume && (
-              <div className="mb-3 flex flex-col gap-2 sm:flex-row">
+          {/* Resume with upload */}
+          <div>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="text-sm font-medium text-neutral-700">
+                {t("resumes.aiCoverLetter.yourResume")}
+              </label>
+              <button
+                type="button"
+                onClick={() => resumeFileRef.current?.click()}
+                disabled={loadingResume}
+                className="flex items-center gap-1 text-xs font-medium text-ai-accent hover:text-purple-700 transition-colors disabled:opacity-50"
+              >
+                <Upload className="h-3.5 w-3.5" />
+                {loadingResume ? t("resumes.aiCoverLetter.uploading") : t("resumes.aiCoverLetter.uploadFile")}
+              </button>
+              <input
+                ref={resumeFileRef}
+                type="file"
+                accept=".pdf,.txt,.text"
+                onChange={handleResumeUpload}
+                className="hidden"
+                aria-label={t("resumes.aiCoverLetter.uploadResume")}
+              />
+            </div>
+
+            <div className="mb-3 flex flex-col gap-2 sm:flex-row">
+              {savedResume && (
                 <button
                   onClick={() => setResumeSource("saved")}
                   aria-pressed={resumeSource === "saved"}
@@ -162,21 +249,42 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
                     </div>
                   </div>
                 </button>
+              )}
+
+              {uploadedResumeFileName && (
                 <button
-                  onClick={() => setResumeSource("pasted")}
-                  aria-pressed={resumeSource === "pasted"}
-                  className={`rounded-lg border px-4 py-3 text-sm transition-colors ${
-                    resumeSource === "pasted"
+                  onClick={() => setResumeSource("uploaded")}
+                  aria-pressed={resumeSource === "uploaded"}
+                  className={`flex-1 rounded-lg border p-3 text-left text-sm transition-colors ${
+                    resumeSource === "uploaded"
                       ? "border-ai-accent bg-white text-neutral-800"
                       : "border-neutral-200 bg-white text-neutral-500 hover:border-neutral-300"
                   }`}
                 >
-                  {t("resumes.aiCoverLetter.pasteText")}
+                  <div className="flex items-center gap-2">
+                    <Upload className="h-4 w-4 shrink-0" />
+                    <div>
+                      <div className="font-medium">{uploadedResumeFileName}</div>
+                      <div className="text-xs text-neutral-400">{t("resumes.aiCoverLetter.uploadedFile")}</div>
+                    </div>
+                  </div>
                 </button>
-              </div>
-            )}
+              )}
 
-            {(resumeSource === "pasted" || !savedResume) && (
+              <button
+                onClick={() => setResumeSource("pasted")}
+                aria-pressed={resumeSource === "pasted"}
+                className={`rounded-lg border px-4 py-3 text-sm transition-colors ${
+                  resumeSource === "pasted"
+                    ? "border-ai-accent bg-white text-neutral-800"
+                    : "border-neutral-200 bg-white text-neutral-500 hover:border-neutral-300"
+                }`}
+              >
+                {t("resumes.aiCoverLetter.pasteText")}
+              </button>
+            </div>
+
+            {(resumeSource === "pasted" || (!savedResume && !uploadedResumeFileName)) && (
               <Textarea
                 placeholder={t("resumes.aiCoverLetter.pastePlaceholder")}
                 value={pastedResume}

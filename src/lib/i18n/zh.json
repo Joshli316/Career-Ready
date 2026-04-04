@@ -600,7 +600,14 @@
       "successMessage": "求职信已生成！在下方编辑使其更符合你的风格。",
       "aiUsesLeft": "今日剩余 {remaining} 次 AI 使用",
       "failedGeneric": "求职信生成失败。请重试。",
-      "failedDefault": "生成失败，请重试。"
+      "failedDefault": "生成失败，请重试。",
+      "uploadFile": "上传文件",
+      "uploading": "正在读取...",
+      "uploadJd": "上传职位描述文件",
+      "uploadResume": "上传简历文件",
+      "uploadedFile": "已上传文件",
+      "fileLoaded": "已加载 {name}",
+      "fileError": "无法读取文件。请尝试 PDF 或文本文件。"
     },
     "references": {
       "title": "推荐人页面",
